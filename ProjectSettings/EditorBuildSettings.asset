@@ -4,5 +4,65 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Material/UltimateCleanGUIPack/Common/Scenes/UI Elements/Buttons/Buttons
+      - Concave.unity
+    guid: a8a98977f9e844edc90f766a26c670db
+  - enabled: 1
+    path: Assets/Material/UltimateCleanGUIPack/Common/Scenes/UI Elements/Buttons/Buttons
+      - Cutout.unity
+    guid: 8b3dd52589a5d4d1d9fc0cb339c48834
+  - enabled: 1
+    path: Assets/Material/UltimateCleanGUIPack/Common/Scenes/UI Elements/Buttons/Buttons
+      - Polygon.unity
+    guid: 851d9c513931e497b86e7e4611c67edd
+  - enabled: 1
+    path: Assets/Material/UltimateCleanGUIPack/Common/Scenes/UI Elements/Buttons/Buttons
+      - Rounded.unity
+    guid: 4724ad1b260ab4fec9280ddea03500d9
+  - enabled: 1
+    path: Assets/Material/UltimateCleanGUIPack/Common/Scenes/UI Elements/Buttons/Buttons
+      - Semi Rounded.unity
+    guid: 786113643ad6747328c656ea7d8fe8d6
+  - enabled: 1
+    path: Assets/Material/UltimateCleanGUIPack/Common/Scenes/UI Elements/Buttons/Buttons
+      - Sharp Rounded.unity
+    guid: 374e3c90bb3c54494bcd7fc499c4475c
+  - enabled: 1
+    path: Assets/Material/UltimateCleanGUIPack/Common/Scenes/UI Elements/Buttons/Buttons
+      - Square.unity
+    guid: 9e13c0d9e7fd84accb06f19e59ed24fe
+  - enabled: 1
+    path: Assets/Material/UltimateCleanGUIPack/Common/Scenes/UI Elements/Buttons/Buttons
+      - Straight.unity
+    guid: adfb7b28d55384f8c91892deea9dba8f
+  - enabled: 1
+    path: Assets/Material/UltimateCleanGUIPack/Common/Scenes/UI Elements/UI/UI -
+      Concave.unity
+    guid: 13d8a86253efb41abb0a694670e11f41
+  - enabled: 1
+    path: Assets/Material/UltimateCleanGUIPack/Common/Scenes/UI Elements/UI/UI -
+      Cutout.unity
+    guid: cfab21f1129c946ffb1c500e3f2a533d
+  - enabled: 1
+    path: Assets/Material/UltimateCleanGUIPack/Common/Scenes/UI Elements/UI/UI -
+      Rounded.unity
+    guid: 80b85472ec83d4fef9479ef5196e931e
+  - enabled: 1
+    path: Assets/Material/UltimateCleanGUIPack/Common/Scenes/UI Elements/UI/UI -
+      Semi Rounded.unity
+    guid: b38d08ad00b1649cd8e90109e75ab9e2
+  - enabled: 1
+    path: Assets/Material/UltimateCleanGUIPack/Common/Scenes/UI Elements/UI/UI -
+      Sharp Rounded.unity
+    guid: a2b776bf6625a4ed9908095c1618ee8a
+  - enabled: 1
+    path: Assets/Material/UltimateCleanGUIPack/Common/Scenes/UI Elements/UI/UI -
+      Square.unity
+    guid: d6f54895844ad449bb4a448b33fad484
+  - enabled: 1
+    path: Assets/Material/UltimateCleanGUIPack/Common/Scenes/UI Elements/UI/UI -
+      Straight.unity
+    guid: fe102858f581549408e5f708cfb842f8
   m_configObjects: {}
