@@ -42,12 +42,12 @@ public class ClickCharacter : MonoBehaviour
         InitializeList();
 
         int selectedNum = selectedIndex.Count;
-        float firstPosition = 0 - 0.5f * (selectedNum - 1);
+        int firstPosition = 0 - 1 * (selectedNum - 1);
         characterPosition.Add(firstPosition);
         // selectedIndex 값에 따라서 위치 정해진 list 만들기 
         for (int i = 1; i < selectedNum; i++)
         {
-            characterPosition.Add(characterPosition[i - 1] + 1);
+            characterPosition.Add(characterPosition[i - 1] + 2);
         }
 
         // selectedIndex에 있는 값들을 selectedCharacter에 넣어주기 
