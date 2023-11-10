@@ -1060,13 +1060,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 708158460703969383}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.00006955861, y: 0.0051565613, z: 0.0000003583263, w: 0.9999867}
+  m_LocalPosition: {x: -0.008463692, y: -0.00011385608, z: 0.0000501275}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7129047710639669449}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0.008, y: 0.591, z: 0}
 --- !u!137 &6215802421406404467
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -5077,7 +5077,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4335597817617067725}
   - component: {fileID: 7695261886081397943}
-  - component: {fileID: 8445692322880666877}
   m_Layer: 0
   m_Name: C04
   m_TagString: Untagged
@@ -5128,19 +5127,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8445692322880666877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3990457078689199223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d03441c29f398434dba985c59ce213c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterID: 0
 --- !u!1 &4074823897972880082
 GameObject:
   m_ObjectHideFlags: 0
