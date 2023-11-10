@@ -106,6 +106,7 @@ public class PlayerController : MonoBehaviour
 
             case State.Boost://부스트 상태일때
                 Debug.Log("부스트");
+                WaitTime += Time.deltaTime; //시간 증가
                 if (BoostTime >= 3f)
                 {
                     normarSpeed = normarSpeed - plusSpeed; //스피드 원래 스피드
