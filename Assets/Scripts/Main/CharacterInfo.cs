@@ -6,6 +6,12 @@ using UnityEngine;
 public class CharacterInfo : MonoBehaviour
 {
     public int characterID; // 캐릭터의 고유한 ID 값
+    private Animator animator;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     // 해당 캐릭터가 선택되었을 때 호출되는 함수
     public void OnSelect()

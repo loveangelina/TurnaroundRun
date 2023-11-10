@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class ClickCharacter : MonoBehaviour
+public class ClickCharacter : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] List<GameObject> characterGroup;       // 캐릭터 프리팹들이 들어감
     [SerializeField] List<GameObject> selectedCharacter;    // 선택된 캐릭터
@@ -74,5 +75,16 @@ public class ClickCharacter : MonoBehaviour
     {
         selectedCharacter.Clear();
         characterPosition.Clear();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        // 사용자가 클릭한 ui image에 해당하는 캐릭터 id를 가져와서
+        // 그 아이디를 selectedIndex에 넣기 
+        // 이미 ui image가 선택되어있는지 bool 변수줘서
+        // 이미 ui image 선택되어있으면 index에서 빼기 
+        
+        // 이렇게하면 선택한게 게임오브젝트가 아니라 ui image라서 널참조오류 뜸 
+        Debug.Log(eventData.selectedObject.name);
     }
 }
