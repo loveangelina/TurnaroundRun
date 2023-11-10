@@ -11,7 +11,7 @@ public class TitleManager : MonoBehaviour
     public Button btnSetting;
     public Button btnExit;
     public Button btnGameStart;
-    public Button btnExitset;
+
 
     public GameObject pnlSetting;
 
@@ -48,11 +48,6 @@ public class TitleManager : MonoBehaviour
             SoundMgr.Instance.PlayGameStartSound();
             OnClickGameStart();
         });
-        btnExitset.onClick.AddListener(() =>
-        {
-            SoundMgr.Instance.PlayButtonClickSound();
-            UIManager.Instance.ActivePnl(pnlSetting);
-        });
 
 
         //»ç¿îµå
@@ -88,7 +83,7 @@ public class TitleManager : MonoBehaviour
 
     public void OnClickGameStart()
     {
-        SceneManager.LoadScene("LakeScene");
+        SceneManager.LoadScene("Game");
     }
     #endregion
 
@@ -147,6 +142,9 @@ public class TitleManager : MonoBehaviour
 
     }
     #endregion
+
+
+    
 
 
 }
