@@ -13,24 +13,43 @@ public class PlayerController : MonoBehaviour
 
     public enum State
     {
-        Idle,Run,Stop
+        Idle,Run,Stop,Boost
     }
 
     State PlayerState;
 
+    public Boost.BoostEvent onBoost;
+
+    private float plusSpeed;
+
     private Rigidbody rigid;
+
+    public bool canBoost;
+
     private Animator animator;
+
+    private float BoostTime;
     // Start is called before the first frame update
     private void Awake()
     {
+        onBoost = new Boost.BoostEvent();
+        onBoost.AddListener(BoostPlayerSpeed);
         Application.targetFrameRate = 60; //60프레임 고정(버벅거림 방지, Fixed Timestep을 (1 / 60) = 0.016667 로 설정)
     }
+
+    private void BoostPlayerSpeed()//부스터 함수
+    {
+        plusSpeed = MaxSpeed - normarSpeed;
+        normarSpeed = normarSpeed + plusSpeed; //스피드를 최대로 함
+    }
+    
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         PlayerState = State.Idle;
         WaitTime = 0f;
+        BoostTime = 0f;
         IsCoolTime = false;
         MaxSpeed = 10f;
         MinSpeed = 3f;      
@@ -56,12 +75,19 @@ public class PlayerController : MonoBehaviour
 
             case State.Run://달리는상태
                 //normalSpeed로 달림
-                if (WaitTime >= 15f) //시간이 15초 이상이면
+                Debug.Log("달리기");
+                if (WaitTime > 15f) //시간이 15초 이상이면
                 {
                     ChangeState(State.Stop);
                 }
+               
                 else
                 {
+                    if (canBoost == true && WaitTime >= 7f)// 부스트 사용가능상태 이고 시간이 7초 이상이면
+                    {
+                        Debug.Log("부스터 상태로 변환");
+                        ChangeState(State.Boost);//부스터 상태로 변환
+                    }
                     if (!IsCoolTime)//시간셋팅 쿨타임이 아닌경우
                     {
                         StartCoroutine(CollTime());
@@ -74,7 +100,28 @@ public class PlayerController : MonoBehaviour
 
 
             case State.Stop://멈춘상태
+                Debug.Log("골인!");
                 animator.SetFloat("Speed", 0);//블렌드 트리 파라미터 Speed값 0으로 설정(아이들 상태 모션)
+                break;
+
+            case State.Boost://부스트 상태일때
+                Debug.Log("부스트");
+                WaitTime += Time.deltaTime; //시간 증가
+                if (BoostTime >= 3f)
+                {
+                    normarSpeed = normarSpeed - plusSpeed; //스피드 원래 스피드
+                    rigid.velocity = new Vector3(0, 0, normarSpeed);
+                    animator.SetFloat("Speed", normarSpeed);//애니메이션 속도도 원래대로
+                    canBoost = false;//부스트 비활성화
+                    ChangeState(State.Run);//달리기 상태로 변환
+                }
+                else
+                {
+                    BoostPlayerSpeed();//최대 속도
+                    rigid.velocity = new Vector3(0, 0, normarSpeed);
+                    animator.SetFloat("Speed", 10);//애니메이션도 최대속도
+                    BoostTime += Time.deltaTime;//시간증가
+                }              
                 break;
         }
     }
