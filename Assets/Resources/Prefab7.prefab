@@ -9598,6 +9598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canBoost: 0
+  BoostParticlePrefab: {fileID: 5741113021777074026, guid: 78b061d0a8d50574093d8b7d2c34b770, type: 3}
 --- !u!54 &-7328090508585884992
 Rigidbody:
   m_ObjectHideFlags: 0
