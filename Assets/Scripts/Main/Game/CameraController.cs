@@ -24,14 +24,16 @@ public class CameraController : MonoBehaviour
 
     IEnumerator ControlCamera()
     {
-        // 대기하고 있는 플레이어를 쭉 보여줌 
-        waitCamera.enabled = true;
+        // 3초간 대기하고 있는 플레이어를 쭉 보여줌 
+        waitCamera.gameObject.SetActive(true);
         // TODO :
         // 생성된 캐릭터 수만큼 움직임 
 
+        yield return new WaitForSeconds(3f);
+
         // 3초간 달리는 모습 전체를 보여줌
-        waitCamera.enabled = false;
-        startCamera.enabled = true;
+        waitCamera.gameObject.SetActive(false);
+        startCamera.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(3f);
 
@@ -56,5 +58,10 @@ public class CameraController : MonoBehaviour
     private Transform FindFirstPlace()
     {
         return firstPlaceCharacter.GetComponent<Transform>();
+    }
+
+    IEnumerator ShowWaitingCharaters()
+    {
+        yield return null;
     }
 }
