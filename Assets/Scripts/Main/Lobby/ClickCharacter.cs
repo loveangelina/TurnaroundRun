@@ -13,6 +13,13 @@ public class ClickCharacter : MonoBehaviour
     {
         selectedCharacter = new List<GameObject>();
         characterPosition = new List<float>();
+
+        selectedIndex = FindObjectOfType<LobbyUIManager>().GetSelectedToggleIndexes();
+
+        foreach (int index in selectedIndex)
+        {
+            Debug.Log("선택된 토글 인덱스: " + index);
+        }
     }
 
     void Update()
