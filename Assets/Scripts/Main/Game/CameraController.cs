@@ -31,16 +31,16 @@ public class CameraController : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
 
-        // 3초간 달리는 모습 전체를 보여줌
+        // 1.5초간 달리기 시작하는 모습 전체를 보여줌
         waitCamera.gameObject.SetActive(false);
         startCamera.gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.5f);
 
         // (3초간) 1등으로 달리고 있는 사람을 보여줌
-        startCamera.enabled = false;
+        startCamera.gameObject.SetActive(false);
         firstPlaceCamera.Follow = FindFirstPlace();
-        firstPlaceCamera.enabled = true;
+        firstPlaceCamera.gameObject.SetActive(true);
 
         // (2초간) 1, 2등 주변으로 보여줌 
 

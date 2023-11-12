@@ -2482,6 +2482,7 @@ GameObject:
   - component: {fileID: 5205692669944846759}
   - component: {fileID: -6725938364690785663}
   - component: {fileID: 2426942324725241013}
+  - component: {fileID: 4314219539042966478}
   m_Layer: 0
   m_Name: Prefab5
   m_TagString: Untagged
@@ -2561,6 +2562,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &4314219539042966478
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555335747197163879}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!1 &1575379765018943918
 GameObject:
   m_ObjectHideFlags: 0
