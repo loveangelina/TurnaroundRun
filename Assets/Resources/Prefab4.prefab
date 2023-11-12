@@ -2909,7 +2909,7 @@ Animator:
   m_GameObject: {fileID: 1745187925684929670}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 503415fc3fea44f7bb0eebf41e58e8be, type: 3}
-  m_Controller: {fileID: 9100000, guid: 7466400ba5d940d882bbb7dee5ef9201, type: 2}
+  m_Controller: {fileID: 9100000, guid: 158e54686bb9f604f81ec9a166d68eb2, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -2948,7 +2948,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 16
   m_CollisionDetection: 0
 --- !u!136 &-3991032035092953883
 CapsuleCollider:

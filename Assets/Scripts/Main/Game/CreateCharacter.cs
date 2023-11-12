@@ -5,7 +5,7 @@ using UnityEngine;
 public class CreateCharacter : MonoBehaviour
 {
     [SerializeField] List<GameObject> characterGroup;       // 캐릭터 프리팹들이 들어감
-    [SerializeField] List<GameObject> selectedCharacter;    // 선택된 캐릭터
+    [SerializeField] public List<GameObject> selectedCharacter;    // 선택된 캐릭터
     List<int> selectedIndex;
 
     void Start()
@@ -17,6 +17,8 @@ public class CreateCharacter : MonoBehaviour
         //selectedIndexe = FindObjectOfType<LobbyUIManager>().GetSelectedToggleIndexes();
 
         SetCharactersPosition();
+
+        CharacterManager.Instance.characters = selectedCharacter;
     }
 
     void Update()
