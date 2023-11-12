@@ -29,6 +29,9 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
     private float BoostTime;
+
+    public GameObject BoostParticlePrefab;//부스터 파티클 게임 오브젝트 
+    private GameObject BoostParticleInstance;//그 오브젝트를 복사한 인스턴스 
     // Start is called before the first frame update
     private void Awake()
     {
@@ -52,7 +55,9 @@ public class PlayerController : MonoBehaviour
         BoostTime = 0f;
         IsCoolTime = false;
         MaxSpeed = 10f;
-        MinSpeed = 3f;      
+        MinSpeed = 3f;
+        BoostParticleInstance = Instantiate(BoostParticlePrefab, transform.position, Quaternion.identity, transform); //부스터 프리팹을 플레이어 중앙에 복사 > 부스터 인스턴스 대입
+        BoostParticleInstance.SetActive(false);
     }
 
     // Update is called once per frame
@@ -109,6 +114,7 @@ public class PlayerController : MonoBehaviour
                 WaitTime += Time.deltaTime; //시간 증가
                 if (BoostTime >= 3f)
                 {
+                    BoostParticleInstance.SetActive(false);//만들어진 파티클 비활성화                   
                     normarSpeed = normarSpeed - plusSpeed; //스피드 원래 스피드
                     rigid.velocity = new Vector3(0, 0, normarSpeed);
                     animator.SetFloat("Speed", normarSpeed);//애니메이션 속도도 원래대로
@@ -117,6 +123,8 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
+                    BoostParticleInstance.transform.rotation = Quaternion.Euler(0f,180f,0f);//부스터 회전 
+                    BoostParticleInstance.SetActive(true);//부스터 활성화
                     BoostPlayerSpeed();//최대 속도
                     rigid.velocity = new Vector3(0, 0, normarSpeed);
                     animator.SetFloat("Speed", 10);//애니메이션도 최대속도
