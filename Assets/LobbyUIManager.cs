@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class LobbyUIManager : MonoBehaviour
 {
@@ -156,20 +157,47 @@ public void SelectChar()
             Debug.LogError("삭제할 프리팹 인스턴스를 찾을 수 없습니다: " + toggleIndex);
         }
     }
-
-    // 남은 프리팹의 위치 정렬 함수
     private void RearrangePrefabPositions()
     {
+        float offset = prefabSpacing * 0.5f;
+
+        var sortedPrefabInstances = prefabInstances.OrderBy(pair => pair.Key);
+
         int index = 0;
-        foreach (var pair in prefabInstances)
+        foreach (var pair in sortedPrefabInstances)
         {
             Vector3 newPosition = new Vector3(index * prefabSpacing, 0f, 0f);
+
+            // 중앙 정렬
+            float totalWidth = (prefabInstances.Count - 1) * prefabSpacing;
+            newPosition.x -= totalWidth / 2f;
+
+            // 다른 프리팹들과의 충돌 체크 및 조정
+            foreach (var otherPair in sortedPrefabInstances)
+            {
+                if (pair.Key != otherPair.Key)
+                {
+                    float distance = Mathf.Abs(newPosition.x - otherPair.Value.transform.position.x);
+                    float minDistance = prefabSpacing;
+
+                    if (distance < minDistance)
+                    {
+                        float overlap = minDistance - distance;
+                        newPosition.x += overlap * Mathf.Sign(newPosition.x - otherPair.Value.transform.position.x);
+                    }
+                }
+            }
+
             pair.Value.transform.position = newPosition;
             index++;
         }
     }
-
-
+    public void ChangeGameScene()
+    {
+        SoundMgr.Instance.ChangeBGMForScene();//사운드 변경
+        SoundMgr.Instance.countDown();
+        SceneManager.LoadScene("Game");
+    }
 }
 
 
