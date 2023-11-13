@@ -9,7 +9,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera startCamera;
     [SerializeField] CinemachineVirtualCamera firstPlaceCamera;
     [SerializeField] CinemachineVirtualCamera boostCamera;
-    [SerializeField] CinemachineVirtualCamera wholeCamera;
     [SerializeField] CinemachineVirtualCamera finalCamera;
 
     [SerializeField] GameObject firstPlaceCharacter;
@@ -34,11 +33,11 @@ public class CameraController : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
 
-        // 1.5초간 달리기 시작하는 모습 전체를 보여줌
+        // 2초간 달리기 시작하는 모습 전체를 보여줌
         waitCamera.gameObject.SetActive(false);
         startCamera.gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
 
         // (3초간) 1등으로 달리고 있는 사람을 보여줌
         startCamera.gameObject.SetActive(false);
@@ -50,7 +49,7 @@ public class CameraController : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
 
-        // (3초간) 부스터 달리고 있는 사람을 보여줌 
+        // (5초간) 부스터 달리고 있는 사람을 보여줌 
         firstPlaceCamera.gameObject.SetActive(false);
         boostCharacter = FindBooster();
         boostCamera.Follow = boostCharacter.GetComponent<Transform>();
@@ -58,11 +57,11 @@ public class CameraController : MonoBehaviour
         boostCamera.transform.position = new Vector3(boostCharacter.transform.position.x, 2.91f, firstPlaceCharacter.transform.position.z + 4.1f);
         boostCamera.gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
 
-        // (2초간) 전체 달리는 사람들을 보여줌
-
-        // (2.5초간) 결승선에 도착하는 사람들을 보여줌 
+        // (5초간) 결승선에 도착하는 사람들을 보여줌 
+        boostCamera.gameObject.SetActive(false);
+        finalCamera.gameObject.SetActive(true);
 
         // 부스터 된 사람은 최대속도로 달리므로, 
         // 5초간 최대속도로 달릴 때 결승선이 나올 수 있는 지점에서 
