@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class SoundMgr : MonoBehaviour
 {
     public AudioSource bgmSource;
+    private AudioSource gameSource;
+
+    public AudioClip[] sceneBGMs;
     public AudioSource sfxSource;
 
     public AudioClip gameStartClip;
@@ -170,6 +173,25 @@ public class SoundMgr : MonoBehaviour
     {
         // 부스트 효과음 중지
         sfxSource.Stop();
+    }
+    public void ChangeBGMForScene()
+    {
+        int randomSceneIndex = Random.Range(0, sceneBGMs.Length);
+
+        AudioClip newBgmClip = sceneBGMs[randomSceneIndex];
+
+        gameSource = gameObject.AddComponent<AudioSource>();
+        gameSource.clip = newBgmClip;
+
+        if (bgmSource.isPlaying)
+        {
+            bgmSource.Stop();
+            gameSource.Play();
+        }
+
+        Destroy(gameSource, newBgmClip.length);
+
+        bgmSource = gameSource;
     }
 
 }
