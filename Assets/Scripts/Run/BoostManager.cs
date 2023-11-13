@@ -34,17 +34,17 @@ public class BoostManager : MonoBehaviour
         {
             players.Add(character.GetComponent<PlayerController>());
         }
-        currentBoostPlayerIndex = UnityEngine.Random.Range(0, players.Count);//·£´ıÀ¸·Î ÇÃ·¹ÀÌ¾î ¼³Á¤
-        setCurrentBoostPlayer(currentBoostPlayerIndex);//¼±ÅÃµÈ ÇÃ·¹ÀÌ¾îÀÇ ºÎ½ºÅÍ È°¼ºÈ­
+        currentBoostPlayerIndex = UnityEngine.Random.Range(0, players.Count);//ëœë¤ìœ¼ë¡œ í”Œë ˆì´ì–´ ì„¤ì •
+        setCurrentBoostPlayer(currentBoostPlayerIndex);//ì„ íƒëœ í”Œë ˆì´ì–´ì˜ ë¶€ìŠ¤í„° í™œì„±í™”
         Debug.Log(currentBoostPlayerIndex);
     }
-    public void setCurrentBoostPlayer(int index) //Æ¯Á¤ ÀÎµ¦½ºÀÇ ÇÃ·¹ÀÌ¾î¸¸ ºÎ½ºÆ® »ç¿ëÇÒ¼ö ÀÖ°Ô ¼³Á¤
+    public void setCurrentBoostPlayer(int index) //íŠ¹ì • ì¸ë±ìŠ¤ì˜ í”Œë ˆì´ì–´ë§Œ ë¶€ìŠ¤íŠ¸ ì‚¬ìš©í• ìˆ˜ ìˆê²Œ ì„¤ì •
     {
-        foreach (PlayerController player in players) //¸ğµç ÇÃ·¹ÀÌ¾î ºÎ½ºÆ® ºñÈ°¼ºÈ­
+        foreach (PlayerController player in players) //ëª¨ë“  í”Œë ˆì´ì–´ ë¶€ìŠ¤íŠ¸ ë¹„í™œì„±í™”
         {
             player.canBoost = false;
         }
-        players[index].canBoost = true; //ÇöÀç ºÎ½ºÆ®¸¦ »ç¿ëÇÒ¼ö ÀÖ´Â ÇÃ·¹ÀÌ¾î¸¸ È°¼ºÈ­
+        players[index].canBoost = true; //í˜„ì¬ ë¶€ìŠ¤íŠ¸ë¥¼ ì‚¬ìš©í• ìˆ˜ ìˆëŠ” í”Œë ˆì´ì–´ë§Œ í™œì„±í™”
     }
 
     // Update is called once per frame
