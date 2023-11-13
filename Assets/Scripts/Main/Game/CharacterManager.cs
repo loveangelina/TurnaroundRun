@@ -39,9 +39,21 @@ public class CharacterManager : MonoBehaviour
         
     }
 
-    private void SelectFirstPlace()
+    public GameObject SelectFirstPlace()
     {
+        float maxZ = 0;
+        GameObject firstPlace = new GameObject();
+        foreach(GameObject character in characters)
+        {
+            float zPosition = character.transform.position.z;
+            if (maxZ < zPosition)
+            {
+                maxZ = zPosition;
+                firstPlace = character;
+            }
+        }
 
+        return firstPlace;
     }
 
     public void AddCharacter(GameObject character)

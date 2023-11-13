@@ -39,7 +39,10 @@ public class CameraController : MonoBehaviour
 
         // (3초간) 1등으로 달리고 있는 사람을 보여줌
         startCamera.gameObject.SetActive(false);
-        firstPlaceCamera.Follow = FindFirstPlace();
+        firstPlaceCharacter = FindFirstPlace();
+        firstPlaceCamera.Follow = firstPlaceCharacter.GetComponent<Transform>();
+        firstPlaceCamera.LookAt = firstPlaceCharacter.GetComponent<Transform>();
+        firstPlaceCamera.transform.position = new Vector3(firstPlaceCharacter.transform.position.x, 2.91f, firstPlaceCharacter.transform.position.z + 4.1f);
         firstPlaceCamera.gameObject.SetActive(true);
 
         // (2초간) 1, 2등 주변으로 보여줌 
@@ -55,9 +58,10 @@ public class CameraController : MonoBehaviour
     }
 
     // 현재 1등으로 달리고 있는 캐릭터를 찾음
-    private Transform FindFirstPlace()
+    private GameObject FindFirstPlace()
     {
-        return firstPlaceCharacter.GetComponent<Transform>();
+        firstPlaceCharacter = CharacterManager.Instance.SelectFirstPlace();
+        return firstPlaceCharacter;
     }
 
     IEnumerator ShowWaitingCharaters()
