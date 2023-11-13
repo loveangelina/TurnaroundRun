@@ -24,13 +24,16 @@ public class BoostManager : MonoBehaviour
     }
 
     private List<PlayerController> players = new List<PlayerController>();
-    private int currentBoostPlayerIndex;
+    public int currentBoostPlayerIndex;
 
 
     void Start()
     {
-        PlayerController[] findPlayers = FindObjectsOfType<PlayerController>();
-        players.AddRange(findPlayers);//찾은 플레이어 추가
+        List<GameObject> findPlayers = CharacterManager.Instance.characters;
+        foreach(GameObject character in findPlayers)
+        {
+            players.Add(character.GetComponent<PlayerController>());
+        }
         currentBoostPlayerIndex = UnityEngine.Random.Range(0, players.Count);//랜덤으로 플레이어 설정
         setCurrentBoostPlayer(currentBoostPlayerIndex);//선택된 플레이어의 부스터 활성화
         Debug.Log(currentBoostPlayerIndex);
