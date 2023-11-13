@@ -15,7 +15,7 @@ public class SoundMgr : MonoBehaviour
     public Slider sfxSlider;
     public Toggle bgmToggle;
     public Toggle sfxToggle;
-
+    public AudioClip boostSoundClip; // 부스트 효과음 클립
     private static SoundMgr _instance;
 
     public static SoundMgr Instance
@@ -161,6 +161,15 @@ public class SoundMgr : MonoBehaviour
             SaveAudioSettings();
             PlayerPrefs.SetInt("ISSAVE", 1);
         }
+    }
+    public void PlayBoostSound()
+    {
+        sfxSource.PlayOneShot(boostSoundClip);
+    }
+    public void StopBoostSound()
+    {
+        // 부스트 효과음 중지
+        sfxSource.Stop();
     }
 
 }
