@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
 
     public GameObject BoostParticlePrefab;//부스터 파티클 게임 오브젝트 
     private GameObject BoostParticleInstance;//그 오브젝트를 복사한 인스턴스 
+
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -57,7 +59,8 @@ public class PlayerController : MonoBehaviour
         IsCoolTime = false;
         MaxSpeed = 10f;
         MinSpeed = 3f;
-        BoostParticleInstance = Instantiate(BoostParticlePrefab, transform.position, Quaternion.identity, transform); //부스터 프리팹을 플레이어 중앙에 복사 > 부스터 인스턴스 대입
+        Vector3 spawnPosition = transform.position + new Vector3(0, 1f, 0);
+        BoostParticleInstance = Instantiate(BoostParticlePrefab, spawnPosition, Quaternion.identity, transform); //부스터 프리팹을 플레이어 중앙에 복사 > 부스터 인스턴스 대입
         BoostParticleInstance.SetActive(false);
     }
 
@@ -82,8 +85,8 @@ public class PlayerController : MonoBehaviour
             case State.Run://달리는상태
                 //normalSpeed로 달림
                 Debug.Log("달리기");
-                Debug.Log(normarSpeed);
-                if (WaitTime > 15f) //시간이 15초 이상이면
+                //Debug.Log(normarSpeed);
+                if (WaitTime > 35f) //시간이 15초 이상이면
                 {
                     ChangeState(State.Stop);
                 }
@@ -107,7 +110,10 @@ public class PlayerController : MonoBehaviour
 
             case State.Stop://멈춘상태
                 Debug.Log("골인!");
+                canBoost = false;
+                BoostParticleInstance.SetActive(false);//만들어진 파티클 비활성화                   
                 animator.SetFloat("Speed", 0);//블렌드 트리 파라미터 Speed값 0으로 설정(아이들 상태 모션)
+                SoundMgr.Instance.StopBoostSound();//부스터 비활성화
                 rigid.velocity =  Vector3.zero;//멈출때 속도 0
                 break;
 
@@ -121,12 +127,14 @@ public class PlayerController : MonoBehaviour
                     rigid.velocity = new Vector3(0, 0, normarSpeed);
                     animator.SetFloat("Speed", normarSpeed);//애니메이션 속도도 원래대로
                     canBoost = false;//부스트 비활성화
+                    SoundMgr.Instance.StopBoostSound();//부스터 비활성화
                     ChangeState(State.Run);//달리기 상태로 변환
                 }
                 else
                 {
                     BoostParticleInstance.transform.rotation = Quaternion.Euler(0f,180f,0f);//부스터 회전 
                     BoostParticleInstance.SetActive(true);//부스터 활성화
+                    SoundMgr.Instance.PlayBoostSound();//사운드 매니저 부스터 호출
                     BoostPlayerSpeed();//최대 속도
                     rigid.velocity = new Vector3(0, 0, normarSpeed);
                     animator.SetFloat("Speed", 10);//애니메이션도 최대속도
@@ -144,7 +152,7 @@ public class PlayerController : MonoBehaviour
         normarSpeed = Random.Range(MinSpeed, MaxSpeed);//표준 스피드 랜덤하게 설정(최소,최대)
         animator.SetFloat("Speed", normarSpeed);//애니메이터 블렌드 트리 파라미터 Speed설정
         IsCoolTime = true;
-        yield return new WaitForSeconds(5f);//2초뒤 속도 변경 , 랜덤으로 바꿔도 됨
+        yield return new WaitForSeconds(5f);//5초뒤 속도 변경 , 랜덤으로 바꿔도 됨
         IsCoolTime = false;
     }
 }
