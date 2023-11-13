@@ -6,9 +6,7 @@ using UnityEngine.UI;
 public class SoundMgr : MonoBehaviour
 {
     public AudioSource bgmSource;
-    private AudioSource gameSource;
-
-    public AudioClip[] sceneBGMs;
+    
     public AudioSource sfxSource;
 
     public AudioClip gameStartClip;
@@ -18,6 +16,10 @@ public class SoundMgr : MonoBehaviour
     public Slider sfxSlider;
     public Toggle bgmToggle;
     public Toggle sfxToggle;
+    public AudioSource gameSource;
+    private AudioSource countDownSorce;
+    public AudioClip CountDown;
+    public AudioClip[] sceneBGMs;
     public AudioClip boostSoundClip; // 부스트 효과음 클립
     private static SoundMgr _instance;
 
@@ -180,18 +182,29 @@ public class SoundMgr : MonoBehaviour
 
         AudioClip newBgmClip = sceneBGMs[randomSceneIndex];
 
-        gameSource = gameObject.AddComponent<AudioSource>();
-        gameSource.clip = newBgmClip;
-
-        if (bgmSource.isPlaying)
-        {
-            bgmSource.Stop();
-            gameSource.Play();
-        }
-
-        Destroy(gameSource, newBgmClip.length);
-
-        bgmSource = gameSource;
+        bgmSource.clip = newBgmClip;
+        bgmSource.loop = true;
+        bgmSource.Play();        
+        StartCoroutine(volumeUP());
     }
-
+    public void countDown()
+    {
+        countDownSorce = gameObject.AddComponent<AudioSource>();
+        countDownSorce.clip = CountDown;
+        countDownSorce.volume = 0.5f;
+        countDownSorce.Play();
+        StartCoroutine(DestroyCountDown());
+    }
+    IEnumerator volumeUP()
+    {
+        bgmSource.volume = 0.6f;
+        yield return new WaitForSeconds(3f);
+        bgmSource.volume = 1f;
+    }
+    IEnumerator DestroyCountDown()
+    {       
+        yield return new WaitForSeconds(3.5f);
+        countDownSorce.Stop();
+        Destroy(countDownSorce);
+    }
 }

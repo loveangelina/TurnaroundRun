@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
 
     private float BoostTime;
-
+    private bool CanCountDown;
     public GameObject BoostParticlePrefab;//부스터 파티클 게임 오브젝트 
     private GameObject BoostParticleInstance;//그 오브젝트를 복사한 인스턴스 
 
