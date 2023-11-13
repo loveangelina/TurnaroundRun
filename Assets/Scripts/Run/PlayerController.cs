@@ -11,12 +11,13 @@ public class PlayerController : MonoBehaviour
     public float WaitTime { get; set; }
     public bool IsCoolTime { get; private set; }
 
+    EndTrigger endTrigger;
     public enum State
     {
         Idle,Run,Stop,Boost
     }
 
-    State PlayerState;
+    public State PlayerState;
 
     public Boost.BoostEvent onBoost;
 
@@ -26,7 +27,7 @@ public class PlayerController : MonoBehaviour
 
     public bool canBoost;
 
-    private Animator animator;
+    public Animator animator;
 
     private float BoostTime;
 
@@ -81,6 +82,7 @@ public class PlayerController : MonoBehaviour
             case State.Run://달리는상태
                 //normalSpeed로 달림
                 Debug.Log("달리기");
+                Debug.Log(normarSpeed);
                 if (WaitTime > 15f) //시간이 15초 이상이면
                 {
                     ChangeState(State.Stop);
@@ -90,13 +92,12 @@ public class PlayerController : MonoBehaviour
                 {
                     if (canBoost == true && WaitTime >= 7f)// 부스트 사용가능상태 이고 시간이 7초 이상이면
                     {
-                        Debug.Log("부스터 상태로 변환");
                         ChangeState(State.Boost);//부스터 상태로 변환
                     }
                     if (!IsCoolTime)//시간셋팅 쿨타임이 아닌경우
                     {
                         StartCoroutine(CollTime());
-                    }                  
+                    }
                     rigid.velocity = new Vector3(0, 0, normarSpeed);
 
                     WaitTime += Time.deltaTime; //시간 증가
@@ -107,6 +108,7 @@ public class PlayerController : MonoBehaviour
             case State.Stop://멈춘상태
                 Debug.Log("골인!");
                 animator.SetFloat("Speed", 0);//블렌드 트리 파라미터 Speed값 0으로 설정(아이들 상태 모션)
+                rigid.velocity =  Vector3.zero;//멈출때 속도 0
                 break;
 
             case State.Boost://부스트 상태일때
@@ -133,7 +135,7 @@ public class PlayerController : MonoBehaviour
                 break;
         }
     }
-    void ChangeState(State state)
+    public void ChangeState(State state)
     {
         PlayerState = state; //상태변경
     }
@@ -142,7 +144,7 @@ public class PlayerController : MonoBehaviour
         normarSpeed = Random.Range(MinSpeed, MaxSpeed);//표준 스피드 랜덤하게 설정(최소,최대)
         animator.SetFloat("Speed", normarSpeed);//애니메이터 블렌드 트리 파라미터 Speed설정
         IsCoolTime = true;
-        yield return new WaitForSeconds(2f);//2초뒤 속도 변경 , 랜덤으로 바꿔도 됨
+        yield return new WaitForSeconds(5f);//2초뒤 속도 변경 , 랜덤으로 바꿔도 됨
         IsCoolTime = false;
     }
 }

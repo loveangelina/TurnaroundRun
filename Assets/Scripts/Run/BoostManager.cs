@@ -23,7 +23,7 @@ public class BoostManager : MonoBehaviour
         }
     }
 
-    private List<PlayerController> players = new List<PlayerController>();
+    public List<PlayerController> players = new List<PlayerController>();
     private int currentBoostPlayerIndex;
 
 
