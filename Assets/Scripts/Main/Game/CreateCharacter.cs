@@ -8,7 +8,7 @@ public class CreateCharacter : MonoBehaviour
     [SerializeField] public List<GameObject> selectedCharacter;    // 선택된 캐릭터
     List<int> selectedIndex;
 
-    void Start()
+    void Awake()
     {
         // TODO : 게임시작 연결 시 바꾸기 selectedIndexe
         selectedIndex = new List<int>();
