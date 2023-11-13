@@ -28,17 +28,6 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
-
-    void Start()
-    {
-        SelectFirstPlace();
-    }
-
-    void Update()
-    {
-        
-    }
-
     public GameObject SelectFirstPlace()
     {
         float maxZ = 0;
@@ -56,8 +45,10 @@ public class CharacterManager : MonoBehaviour
         return firstPlace;
     }
 
-    public void AddCharacter(GameObject character)
+    public GameObject GetBoostCharacter()
     {
-        characters.Add(character);
+        BoostManager boostManager = FindObjectOfType<BoostManager>();
+        Debug.Log("Boost 캐릭터는 " + boostManager.currentBoostPlayerIndex);
+        return characters[boostManager.currentBoostPlayerIndex];
     }
 }
