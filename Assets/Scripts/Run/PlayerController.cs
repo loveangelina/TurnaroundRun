@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
 
             case State.Run://달리는상태
                 //normalSpeed로 달림
-                Debug.Log("달리기");
+                //Debug.Log("달리기");
                 if (WaitTime > 15f) //시간이 15초 이상이면
                 {
                     ChangeState(State.Stop);

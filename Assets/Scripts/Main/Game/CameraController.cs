@@ -8,9 +8,12 @@ public class CameraController : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera waitCamera;
     [SerializeField] CinemachineVirtualCamera startCamera;
     [SerializeField] CinemachineVirtualCamera firstPlaceCamera;
+    [SerializeField] CinemachineVirtualCamera boostCamera;
+    [SerializeField] CinemachineVirtualCamera wholeCamera;
+    [SerializeField] CinemachineVirtualCamera finalCamera;
 
-    // TODO : 1등인 캐릭터 찾아서 현재 변수 대체
     [SerializeField] GameObject firstPlaceCharacter;
+    [SerializeField] GameObject boostCharacter;
 
     void Start()
     {
@@ -45,9 +48,21 @@ public class CameraController : MonoBehaviour
         firstPlaceCamera.transform.position = new Vector3(firstPlaceCharacter.transform.position.x, 2.91f, firstPlaceCharacter.transform.position.z + 4.1f);
         firstPlaceCamera.gameObject.SetActive(true);
 
-        // (2초간) 1, 2등 주변으로 보여줌 
+        yield return new WaitForSeconds(3f);
 
-        // (2초간) 1등 전체로 보여줌
+        // (3초간) 부스터 달리고 있는 사람을 보여줌 
+        firstPlaceCamera.gameObject.SetActive(false);
+        boostCharacter = FindBooster();
+        boostCamera.Follow = boostCharacter.GetComponent<Transform>();
+        boostCamera.LookAt = boostCharacter.GetComponent<Transform>();
+        boostCamera.transform.position = new Vector3(boostCharacter.transform.position.x, 2.91f, firstPlaceCharacter.transform.position.z + 4.1f);
+        boostCamera.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+
+        // (2초간) 전체 달리는 사람들을 보여줌
+
+        // (2.5초간) 결승선에 도착하는 사람들을 보여줌 
 
         // 부스터 된 사람은 최대속도로 달리므로, 
         // 5초간 최대속도로 달릴 때 결승선이 나올 수 있는 지점에서 
@@ -60,12 +75,17 @@ public class CameraController : MonoBehaviour
     // 현재 1등으로 달리고 있는 캐릭터를 찾음
     private GameObject FindFirstPlace()
     {
-        firstPlaceCharacter = CharacterManager.Instance.SelectFirstPlace();
-        return firstPlaceCharacter;
+        return CharacterManager.Instance.SelectFirstPlace();
     }
 
     IEnumerator ShowWaitingCharaters()
     {
         yield return null;
+    }
+
+    // 부스터로 달리고 있는 캐릭터를 찾음
+    private GameObject FindBooster()
+    {
+        return CharacterManager.Instance.GetBoostCharacter();
     }
 }
