@@ -10,6 +10,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera firstPlaceCamera;
     [SerializeField] CinemachineVirtualCamera boostCamera;
     [SerializeField] CinemachineVirtualCamera finalCamera;
+    [SerializeField] CinemachineVirtualCamera punisherCamera;
 
     [SerializeField] GameObject firstPlaceCharacter;
     [SerializeField] GameObject boostCharacter;
@@ -60,9 +61,23 @@ public class CameraController : MonoBehaviour
 
         yield return new WaitForSeconds(5f);
 
-        // (5초간) 결승선에 도착하는 사람들을 보여줌 
+        // (3초간) 결승선에 도착하는 사람들을 보여줌 
         boostCamera.gameObject.SetActive(false);
         finalCamera.gameObject.SetActive(true);
+        yield return new WaitForSeconds(3f);
+
+        // 벌칙자가 정해지면 벌칙자를 확대해서 보여줌
+        while (lastPlaceCharacter == null)
+        {
+            if (!lastPlaceCharacter)
+                break;
+        }
+        yield return new WaitForSeconds(1f);
+        finalCamera.gameObject.SetActive(false);
+        punisherCamera.LookAt = lastPlaceCharacter.GetComponent<Transform>();
+        //punisherCamera.transform.position = new Vector3(lastPlaceCharacter.transform.position.x, 2.91f, lastPlaceCharacter.transform.position.z);
+        punisherCamera.gameObject.SetActive(true);
+        yield return new WaitForSeconds(5f);
 
         // 부스터 된 사람은 최대속도로 달리므로, 
         // 5초간 최대속도로 달릴 때 결승선이 나올 수 있는 지점에서 
@@ -78,14 +93,14 @@ public class CameraController : MonoBehaviour
         return CharacterManager.Instance.SelectFirstPlace();
     }
 
-    IEnumerator ShowWaitingCharaters()
-    {
-        yield return null;
-    }
-
     // 부스터로 달리고 있는 캐릭터를 찾음
     private GameObject FindBooster()
     {
         return CharacterManager.Instance.GetBoostCharacter();
+    }
+
+    public void SetLastPlaceCharacter(GameObject player)
+    {
+        lastPlaceCharacter = player;
     }
 }
