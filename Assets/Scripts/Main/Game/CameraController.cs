@@ -13,6 +13,7 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] GameObject firstPlaceCharacter;
     [SerializeField] GameObject boostCharacter;
+    [SerializeField] GameObject lastPlaceCharacter;
 
     void Start()
     {
@@ -33,11 +34,11 @@ public class CameraController : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
 
-        // 2초간 달리기 시작하는 모습 전체를 보여줌
+        // 3초간 달리기 시작하는 모습 전체를 보여줌
         waitCamera.gameObject.SetActive(false);
         startCamera.gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
 
         // (3초간) 1등으로 달리고 있는 사람을 보여줌
         startCamera.gameObject.SetActive(false);
