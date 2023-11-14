@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
 
     private float BoostTime;
-
+    private bool CanCountDown;
     public GameObject BoostParticlePrefab;//부스터 파티클 게임 오브젝트 
     private GameObject BoostParticleInstance;//그 오브젝트를 복사한 인스턴스 
 
@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour
             case State.Boost://부스트 상태일때
                 Debug.Log("부스트");
                 WaitTime += Time.deltaTime; //시간 증가
-                if (BoostTime >= 3f)
+                if (BoostTime >= 5f)
                 {
                     BoostParticleInstance.SetActive(false);//만들어진 파티클 비활성화                   
                     normarSpeed = normarSpeed - plusSpeed; //스피드 원래 스피드
