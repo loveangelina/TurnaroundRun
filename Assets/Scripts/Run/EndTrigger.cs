@@ -20,11 +20,14 @@ public class EndTrigger : MonoBehaviour
             if(player != null)
             {
                 ComePlayer.Add(player);//플레이어 추가
+                SoundMgr.Instance.ComeIn();//들어오는 소리
                 player.ChangeState(PlayerController.State.Stop);//스탑상태로 변경
 
                 if (ComePlayer.Count ==TotalPlayerCount)//모든 플레이어가 결승선에 들어오면
                 {
                     DefeatPlayer();//패배자 선정
+                    SoundMgr.Instance.bgmSource.volume = 0.5f;
+                    StartCoroutine(SoundMgr.Instance.Nagative());
                 }
             }   
         }
