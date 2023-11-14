@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour
 
 
             case State.Stop://멈춘상태
-                Debug.Log("골인!");
+                //Debug.Log("골인!");
                 canBoost = false;
                 BoostParticleInstance.SetActive(false);//만들어진 파티클 비활성화                   
                 animator.SetFloat("Speed", 0);//블렌드 트리 파라미터 Speed값 0으로 설정(아이들 상태 모션)
@@ -120,7 +120,7 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case State.Boost://부스트 상태일때
-                Debug.Log("부스트");
+                //Debug.Log("부스트");
                 WaitTime += Time.deltaTime; //시간 증가
                 if (BoostTime >= 5f)
                 {
