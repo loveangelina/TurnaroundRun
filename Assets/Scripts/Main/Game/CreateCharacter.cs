@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CreateCharacter : MonoBehaviour
 {
@@ -8,25 +9,23 @@ public class CreateCharacter : MonoBehaviour
     [SerializeField] public List<GameObject> selectedCharacter;    // 선택된 캐릭터
     List<int> selectedIndex;
 
+ 
     void Awake()
-    {
+    { 
         // TODO : 게임시작 연결 시 바꾸기 selectedIndexe
         selectedIndex = new List<int>();
-        selectedIndex.Add(0);
-        selectedIndex.Add(1);
-        //selectedIndexe = FindObjectOfType<LobbyUIManager>().GetSelectedToggleIndexes();
+        //selectedIndex.Add(0);
+        //selectedIndex.Add(1);
+
+        selectedIndex = FindObjectOfType<LobbyUIManager>().GetSelectedToggleIndexes();
 
         SetCharactersPosition();
 
         CharacterManager.Instance.characters = selectedCharacter;
     }
 
-    void Update()
-    {
-        
-    }
 
-    private void SetCharactersPosition()
+    public void SetCharactersPosition()
     {
         int selectedNum = selectedIndex.Count;
         float firstPosition = 0 - 0.5f * (selectedNum - 1);
@@ -41,4 +40,6 @@ public class CreateCharacter : MonoBehaviour
             firstPosition += 2;
         }
     }
+
+  
 }
