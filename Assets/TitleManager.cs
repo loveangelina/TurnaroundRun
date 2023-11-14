@@ -83,7 +83,9 @@ public class TitleManager : MonoBehaviour
 
     public void OnClickGameStart()
     {
-        SceneManager.LoadScene("Game");
+        //SoundMgr.Instance.ChangeBGMForScene();//사운드 변경
+        //SoundMgr.Instance.countDown();
+        SceneManager.LoadScene("Lobby");
     }
     #endregion
 

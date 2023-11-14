@@ -10,6 +10,6 @@ public class Boost : MonoBehaviour
     // Start is called before the first frame update
     public void BoostSpeed()
     {       
-         onBoost.Invoke();       
+        onBoost.Invoke();       
     }
 }

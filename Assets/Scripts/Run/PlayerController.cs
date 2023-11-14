@@ -11,12 +11,13 @@ public class PlayerController : MonoBehaviour
     public float WaitTime { get; set; }
     public bool IsCoolTime { get; private set; }
 
+    EndTrigger endTrigger;
     public enum State
     {
         Idle,Run,Stop,Boost
     }
 
-    State PlayerState;
+    public State PlayerState;
 
     public Boost.BoostEvent onBoost;
 
@@ -26,21 +27,26 @@ public class PlayerController : MonoBehaviour
 
     public bool canBoost;
 
-    private Animator animator;
+    public Animator animator;
 
     private float BoostTime;
+    private bool CanCountDown;
+    public GameObject BoostParticlePrefab;//ë¶€ìŠ¤í„° íŒŒí‹°í´ ê²Œì„ ì˜¤ë¸Œì íŠ¸ 
+    private GameObject BoostParticleInstance;//ê·¸ ì˜¤ë¸Œì íŠ¸ë¥¼ ë³µì‚¬í•œ ì¸ìŠ¤í„´ìŠ¤ 
+
+
     // Start is called before the first frame update
     private void Awake()
     {
         onBoost = new Boost.BoostEvent();
         onBoost.AddListener(BoostPlayerSpeed);
-        Application.targetFrameRate = 60; //60ÇÁ·¹ÀÓ °íÁ¤(¹ö¹÷°Å¸² ¹æÁö, Fixed TimestepÀ» (1 / 60) = 0.016667 ·Î ¼³Á¤)
+        Application.targetFrameRate = 60; //60í”„ë ˆì„ ê³ ì •(ë²„ë²…ê±°ë¦¼ ë°©ì§€, Fixed Timestepì„ (1 / 60) = 0.016667 ë¡œ ì„¤ì •)
     }
 
-    private void BoostPlayerSpeed()//ºÎ½ºÅÍ ÇÔ¼ö
+    private void BoostPlayerSpeed()//ë¶€ìŠ¤í„° í•¨ìˆ˜
     {
         plusSpeed = MaxSpeed - normarSpeed;
-        normarSpeed = normarSpeed + plusSpeed; //½ºÇÇµå¸¦ ÃÖ´ë·Î ÇÔ
+        normarSpeed = normarSpeed + plusSpeed; //ìŠ¤í”¼ë“œë¥¼ ìµœëŒ€ë¡œ í•¨
     }
     
     void Start()
@@ -52,7 +58,10 @@ public class PlayerController : MonoBehaviour
         BoostTime = 0f;
         IsCoolTime = false;
         MaxSpeed = 10f;
-        MinSpeed = 3f;      
+        MinSpeed = 3f;
+        Vector3 spawnPosition = transform.position + new Vector3(0, 1f, 0);
+        BoostParticleInstance = Instantiate(BoostParticlePrefab, spawnPosition, Quaternion.identity, transform); //ë¶€ìŠ¤í„° í”„ë¦¬íŒ¹ì„ í”Œë ˆì´ì–´ ì¤‘ì•™ì— ë³µì‚¬ > ë¶€ìŠ¤í„° ì¸ìŠ¤í„´ìŠ¤ ëŒ€ì…
+        BoostParticleInstance.SetActive(false);
     }
 
     // Update is called once per frame
@@ -60,10 +69,10 @@ public class PlayerController : MonoBehaviour
     {
         switch (PlayerState)
         {
-            case State.Idle://¾ÆÀÌµé»óÅÂ
+            case State.Idle://ì•„ì´ë“¤ìƒíƒœ
                 if (WaitTime >= 3f)
                 {
-                    ChangeState(State.Run);//3ÃÊÈÄ ·±»óÅÂ
+                    ChangeState(State.Run);//3ì´ˆí›„ ëŸ°ìƒíƒœ
                     WaitTime = 0;
                 }
                 else
@@ -73,68 +82,77 @@ public class PlayerController : MonoBehaviour
                 break;
 
 
-            case State.Run://´Ş¸®´Â»óÅÂ
-                //normalSpeed·Î ´Ş¸²
-                Debug.Log("´Ş¸®±â");
-                if (WaitTime > 15f) //½Ã°£ÀÌ 15ÃÊ ÀÌ»óÀÌ¸é
+            case State.Run://ë‹¬ë¦¬ëŠ”ìƒíƒœ
+                //normalSpeedë¡œ ë‹¬ë¦¼
+                Debug.Log("ë‹¬ë¦¬ê¸°");
+                //Debug.Log(normarSpeed);
+                if (WaitTime > 35f) //ì‹œê°„ì´ 15ì´ˆ ì´ìƒì´ë©´
                 {
                     ChangeState(State.Stop);
                 }
                
                 else
                 {
-                    if (canBoost == true && WaitTime >= 7f)// ºÎ½ºÆ® »ç¿ë°¡´É»óÅÂ ÀÌ°í ½Ã°£ÀÌ 7ÃÊ ÀÌ»óÀÌ¸é
+                    if (canBoost == true && WaitTime >= 7f)// ë¶€ìŠ¤íŠ¸ ì‚¬ìš©ê°€ëŠ¥ìƒíƒœ ì´ê³  ì‹œê°„ì´ 7ì´ˆ ì´ìƒì´ë©´
                     {
-                        Debug.Log("ºÎ½ºÅÍ »óÅÂ·Î º¯È¯");
-                        ChangeState(State.Boost);//ºÎ½ºÅÍ »óÅÂ·Î º¯È¯
+                        ChangeState(State.Boost);//ë¶€ìŠ¤í„° ìƒíƒœë¡œ ë³€í™˜
                     }
-                    if (!IsCoolTime)//½Ã°£¼ÂÆÃ ÄğÅ¸ÀÓÀÌ ¾Æ´Ñ°æ¿ì
+                    if (!IsCoolTime)//ì‹œê°„ì…‹íŒ… ì¿¨íƒ€ì„ì´ ì•„ë‹Œê²½ìš°
                     {
                         StartCoroutine(CollTime());
-                    }                  
+                    }
                     rigid.velocity = new Vector3(0, 0, normarSpeed);
 
-                    WaitTime += Time.deltaTime; //½Ã°£ Áõ°¡
+                    WaitTime += Time.deltaTime; //ì‹œê°„ ì¦ê°€
                 }
                 break;
 
 
-            case State.Stop://¸ØÃá»óÅÂ
-                Debug.Log("°ñÀÎ!");
-                animator.SetFloat("Speed", 0);//ºí·»µå Æ®¸® ÆÄ¶ó¹ÌÅÍ Speed°ª 0À¸·Î ¼³Á¤(¾ÆÀÌµé »óÅÂ ¸ğ¼Ç)
+            case State.Stop://ë©ˆì¶˜ìƒíƒœ
+                Debug.Log("ê³¨ì¸!");
+                canBoost = false;
+                BoostParticleInstance.SetActive(false);//ë§Œë“¤ì–´ì§„ íŒŒí‹°í´ ë¹„í™œì„±í™”                   
+                animator.SetFloat("Speed", 0);//ë¸”ë Œë“œ íŠ¸ë¦¬ íŒŒë¼ë¯¸í„° Speedê°’ 0ìœ¼ë¡œ ì„¤ì •(ì•„ì´ë“¤ ìƒíƒœ ëª¨ì…˜)
+                SoundMgr.Instance.StopBoostSound();//ë¶€ìŠ¤í„° ë¹„í™œì„±í™”
+                rigid.velocity =  Vector3.zero;//ë©ˆì¶œë•Œ ì†ë„ 0
                 break;
 
-            case State.Boost://ºÎ½ºÆ® »óÅÂÀÏ¶§
-                Debug.Log("ºÎ½ºÆ®");
-                WaitTime += Time.deltaTime; //½Ã°£ Áõ°¡
-                if (BoostTime >= 3f)
+            case State.Boost://ë¶€ìŠ¤íŠ¸ ìƒíƒœì¼ë•Œ
+                Debug.Log("ë¶€ìŠ¤íŠ¸");
+                WaitTime += Time.deltaTime; //ì‹œê°„ ì¦ê°€
+                if (BoostTime >= 5f)
                 {
-                    normarSpeed = normarSpeed - plusSpeed; //½ºÇÇµå ¿ø·¡ ½ºÇÇµå
+                    BoostParticleInstance.SetActive(false);//ë§Œë“¤ì–´ì§„ íŒŒí‹°í´ ë¹„í™œì„±í™”                   
+                    normarSpeed = normarSpeed - plusSpeed; //ìŠ¤í”¼ë“œ ì›ë˜ ìŠ¤í”¼ë“œ
                     rigid.velocity = new Vector3(0, 0, normarSpeed);
-                    animator.SetFloat("Speed", normarSpeed);//¾Ö´Ï¸ŞÀÌ¼Ç ¼Óµµµµ ¿ø·¡´ë·Î
-                    canBoost = false;//ºÎ½ºÆ® ºñÈ°¼ºÈ­
-                    ChangeState(State.Run);//´Ş¸®±â »óÅÂ·Î º¯È¯
+                    animator.SetFloat("Speed", normarSpeed);//ì• ë‹ˆë©”ì´ì…˜ ì†ë„ë„ ì›ë˜ëŒ€ë¡œ
+                    canBoost = false;//ë¶€ìŠ¤íŠ¸ ë¹„í™œì„±í™”
+                    SoundMgr.Instance.StopBoostSound();//ë¶€ìŠ¤í„° ë¹„í™œì„±í™”
+                    ChangeState(State.Run);//ë‹¬ë¦¬ê¸° ìƒíƒœë¡œ ë³€í™˜
                 }
                 else
                 {
-                    BoostPlayerSpeed();//ÃÖ´ë ¼Óµµ
+                    BoostParticleInstance.transform.rotation = Quaternion.Euler(0f,180f,0f);//ë¶€ìŠ¤í„° íšŒì „ 
+                    BoostParticleInstance.SetActive(true);//ë¶€ìŠ¤í„° í™œì„±í™”
+                    SoundMgr.Instance.PlayBoostSound();//ì‚¬ìš´ë“œ ë§¤ë‹ˆì € ë¶€ìŠ¤í„° í˜¸ì¶œ
+                    BoostPlayerSpeed();//ìµœëŒ€ ì†ë„
                     rigid.velocity = new Vector3(0, 0, normarSpeed);
-                    animator.SetFloat("Speed", 10);//¾Ö´Ï¸ŞÀÌ¼Çµµ ÃÖ´ë¼Óµµ
-                    BoostTime += Time.deltaTime;//½Ã°£Áõ°¡
+                    animator.SetFloat("Speed", 10);//ì• ë‹ˆë©”ì´ì…˜ë„ ìµœëŒ€ì†ë„
+                    BoostTime += Time.deltaTime;//ì‹œê°„ì¦ê°€
                 }              
                 break;
         }
     }
-    void ChangeState(State state)
+    public void ChangeState(State state)
     {
-        PlayerState = state; //»óÅÂº¯°æ
+        PlayerState = state; //ìƒíƒœë³€ê²½
     }
     IEnumerator CollTime()
     {
-        normarSpeed = Random.Range(MinSpeed, MaxSpeed);//Ç¥ÁØ ½ºÇÇµå ·£´ıÇÏ°Ô ¼³Á¤(ÃÖ¼Ò,ÃÖ´ë)
-        animator.SetFloat("Speed", normarSpeed);//¾Ö´Ï¸ŞÀÌÅÍ ºí·»µå Æ®¸® ÆÄ¶ó¹ÌÅÍ Speed¼³Á¤
+        normarSpeed = Random.Range(MinSpeed, MaxSpeed);//í‘œì¤€ ìŠ¤í”¼ë“œ ëœë¤í•˜ê²Œ ì„¤ì •(ìµœì†Œ,ìµœëŒ€)
+        animator.SetFloat("Speed", normarSpeed);//ì• ë‹ˆë©”ì´í„° ë¸”ë Œë“œ íŠ¸ë¦¬ íŒŒë¼ë¯¸í„° Speedì„¤ì •
         IsCoolTime = true;
-        yield return new WaitForSeconds(2f);//2ÃÊµÚ ¼Óµµ º¯°æ , ·£´ıÀ¸·Î ¹Ù²ãµµ µÊ
+        yield return new WaitForSeconds(5f);//5ì´ˆë’¤ ì†ë„ ë³€ê²½ , ëœë¤ìœ¼ë¡œ ë°”ê¿”ë„ ë¨
         IsCoolTime = false;
     }
 }
