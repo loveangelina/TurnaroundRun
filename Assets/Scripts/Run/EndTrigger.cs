@@ -44,8 +44,18 @@ public class EndTrigger : MonoBehaviour
             }
             lastPlayer.animator.SetBool("Die", true);//플레이어 죽음 모션
             Debug.Log("죽음");
+
+            // CameraController에 lastPlayer 전달
+            SetCameraLastPlayer(lastPlayer);
         }
     }
     
-
+    private void SetCameraLastPlayer(PlayerController lastPlayer)
+    {
+        CameraController cameraController = FindObjectOfType<CameraController>();
+        if (cameraController != null)
+        {
+            cameraController.SetLastPlaceCharacter(lastPlayer.gameObject);
+        }
+    }
 }
