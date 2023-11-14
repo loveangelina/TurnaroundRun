@@ -16,7 +16,6 @@ public class SoundMgr : MonoBehaviour
     public Slider sfxSlider;
     public Toggle bgmToggle;
     public Toggle sfxToggle;
-    public AudioSource gameSource;
     private AudioSource countDownSorce;
     public AudioClip CountDown;
     public AudioClip[] sceneBGMs;

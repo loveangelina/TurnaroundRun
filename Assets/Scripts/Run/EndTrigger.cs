@@ -7,7 +7,6 @@ public class EndTrigger : MonoBehaviour
 {
     List<PlayerController> ComePlayer = new List<PlayerController>();
     int TotalPlayerCount;
-    PlayerController Stop;
     private void Start()
     {
         PlayerController[] allPlayers = FindObjectsOfType<PlayerController>();//플레이어컨트롤 가지고있는 애들 찾아서 배열에 넣음
