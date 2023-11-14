@@ -2550,7 +2550,6 @@ MonoBehaviour:
   canBoost: 0
   animator: {fileID: 0}
   BoostParticlePrefab: {fileID: 5801834362070671480, guid: 8670055c5242e2e4dbe124697c5c0907, type: 3}
-  boostClip: {fileID: 8300000, guid: e9bc800cb24ffc845bcc77c49ab64d31, type: 3}
 --- !u!54 &2426942324725241013
 Rigidbody:
   m_ObjectHideFlags: 0
