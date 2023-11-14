@@ -67,15 +67,15 @@ public class CameraController : MonoBehaviour
         yield return new WaitForSeconds(3f);
 
         // 벌칙자가 정해지면 벌칙자를 확대해서 보여줌
-        while (lastPlaceCharacter == null)
+        while (!lastPlaceCharacter)
         {
-            if (!lastPlaceCharacter)
-                break;
+            yield return null;
         }
+        Debug.Log("반복문 탈출");
         yield return new WaitForSeconds(1f);
         finalCamera.gameObject.SetActive(false);
         punisherCamera.LookAt = lastPlaceCharacter.GetComponent<Transform>();
-        //punisherCamera.transform.position = new Vector3(lastPlaceCharacter.transform.position.x, 2.91f, lastPlaceCharacter.transform.position.z);
+        punisherCamera.transform.position = new Vector3(lastPlaceCharacter.transform.position.x, 2.91f, lastPlaceCharacter.transform.position.z);
         punisherCamera.gameObject.SetActive(true);
         yield return new WaitForSeconds(5f);
 
@@ -102,5 +102,6 @@ public class CameraController : MonoBehaviour
     public void SetLastPlaceCharacter(GameObject player)
     {
         lastPlaceCharacter = player;
+        Debug.Log("벌칙자는 " + player.name);
     }
 }
