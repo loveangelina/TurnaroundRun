@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
@@ -28,7 +29,7 @@ public class PlayerController : MonoBehaviour
     public bool canBoost;
 
     public Animator animator;
-
+    private bool isboostSound;
     private float BoostTime;
     private bool CanCountDown;
     public GameObject BoostParticlePrefab;//부스터 파티클 게임 오브젝트 
@@ -62,6 +63,7 @@ public class PlayerController : MonoBehaviour
         Vector3 spawnPosition = transform.position + new Vector3(0, 1f, 0);
         BoostParticleInstance = Instantiate(BoostParticlePrefab, spawnPosition, Quaternion.identity, transform); //부스터 프리팹을 플레이어 중앙에 복사 > 부스터 인스턴스 대입
         BoostParticleInstance.SetActive(false);
+        isboostSound = true;
     }
 
     // Update is called once per frame
@@ -84,7 +86,7 @@ public class PlayerController : MonoBehaviour
 
             case State.Run://달리는상태
                 //normalSpeed로 달림
-                Debug.Log("달리기");
+                //Debug.Log("달리기");
                 //Debug.Log(normarSpeed);
                 if (WaitTime > 35f) //시간이 15초 이상이면
                 {
@@ -109,7 +111,7 @@ public class PlayerController : MonoBehaviour
 
 
             case State.Stop://멈춘상태
-                Debug.Log("골인!");
+                //Debug.Log("골인!");
                 canBoost = false;
                 BoostParticleInstance.SetActive(false);//만들어진 파티클 비활성화                   
                 animator.SetFloat("Speed", 0);//블렌드 트리 파라미터 Speed값 0으로 설정(아이들 상태 모션)
@@ -118,7 +120,7 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case State.Boost://부스트 상태일때
-                Debug.Log("부스트");
+                //Debug.Log("부스트");
                 WaitTime += Time.deltaTime; //시간 증가
                 if (BoostTime >= 5f)
                 {
@@ -134,8 +136,12 @@ public class PlayerController : MonoBehaviour
                 {
                     BoostParticleInstance.transform.rotation = Quaternion.Euler(0f,180f,0f);//부스터 회전 
                     BoostParticleInstance.SetActive(true);//부스터 활성화
-                    SoundMgr.Instance.PlayBoostSound();//사운드 매니저 부스터 호출
                     BoostPlayerSpeed();//최대 속도
+                    if(isboostSound)
+                    {
+                        StartCoroutine(BoostSound());//부스터 사운드 업데이트문에서 한번만 재생
+                        isboostSound = false;
+                    }
                     rigid.velocity = new Vector3(0, 0, normarSpeed);
                     animator.SetFloat("Speed", 10);//애니메이션도 최대속도
                     BoostTime += Time.deltaTime;//시간증가
@@ -154,5 +160,11 @@ public class PlayerController : MonoBehaviour
         IsCoolTime = true;
         yield return new WaitForSeconds(5f);//5초뒤 속도 변경 , 랜덤으로 바꿔도 됨
         IsCoolTime = false;
+    }
+    IEnumerator BoostSound()
+    {
+        SoundMgr.Instance.PlayBoostSound();//사운드 매니저 부스터 호출
+        
+        yield return new WaitForSeconds(5f);
     }
 }

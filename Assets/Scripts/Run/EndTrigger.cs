@@ -7,7 +7,6 @@ public class EndTrigger : MonoBehaviour
 {
     List<PlayerController> ComePlayer = new List<PlayerController>();
     int TotalPlayerCount;
-    PlayerController Stop;
     private void Start()
     {
         PlayerController[] allPlayers = FindObjectsOfType<PlayerController>();//플레이어컨트롤 가지고있는 애들 찾아서 배열에 넣음
@@ -21,11 +20,14 @@ public class EndTrigger : MonoBehaviour
             if(player != null)
             {
                 ComePlayer.Add(player);//플레이어 추가
+                SoundMgr.Instance.ComeIn();//들어오는 소리
                 player.ChangeState(PlayerController.State.Stop);//스탑상태로 변경
 
                 if (ComePlayer.Count ==TotalPlayerCount)//모든 플레이어가 결승선에 들어오면
                 {
                     DefeatPlayer();//패배자 선정
+                    SoundMgr.Instance.bgmSource.volume = 0.5f;
+                    StartCoroutine(SoundMgr.Instance.Nagative());
                 }
             }   
         }
@@ -45,8 +47,18 @@ public class EndTrigger : MonoBehaviour
             }
             lastPlayer.animator.SetBool("Die", true);//플레이어 죽음 모션
             Debug.Log("죽음");
+
+            // CameraController에 lastPlayer 전달
+            SetCameraLastPlayer(lastPlayer);
         }
     }
     
-
+    private void SetCameraLastPlayer(PlayerController lastPlayer)
+    {
+        CameraController cameraController = FindObjectOfType<CameraController>();
+        if (cameraController != null)
+        {
+            cameraController.SetLastPlaceCharacter(lastPlayer.gameObject);
+        }
+    }
 }

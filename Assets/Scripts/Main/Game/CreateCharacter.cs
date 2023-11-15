@@ -12,11 +12,6 @@ public class CreateCharacter : MonoBehaviour
  
     void Awake()
     { 
-        // TODO : 게임시작 연결 시 바꾸기 selectedIndexe
-        selectedIndex = new List<int>();
-        //selectedIndex.Add(0);
-        //selectedIndex.Add(1);
-
         selectedIndex = FindObjectOfType<LobbyUIManager>().GetSelectedToggleIndexes();
 
         SetCharactersPosition();
@@ -28,7 +23,7 @@ public class CreateCharacter : MonoBehaviour
     public void SetCharactersPosition()
     {
         int selectedNum = selectedIndex.Count;
-        float firstPosition = 0 - 0.5f * (selectedNum - 1);
+        float firstPosition = 0 - 1f * (selectedNum - 1);
 
         // selectedIndex에 있는 값들을 selectedCharacter에 넣어주기 
         // 선택된 캐릭터들만 화면에 보이게 활성화
@@ -40,6 +35,4 @@ public class CreateCharacter : MonoBehaviour
             firstPosition += 2;
         }
     }
-
-  
 }
