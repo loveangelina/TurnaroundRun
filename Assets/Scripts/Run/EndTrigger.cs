@@ -9,13 +9,11 @@ public class EndTrigger : MonoBehaviour
     List<PlayerController> ComePlayer = new List<PlayerController>();
     PlayerController lastPlayer;
     PlayerController player;
-    FootStep footStep;
     int TotalPlayerCount;
     private void Start()
     {
         PlayerController[] allPlayers = FindObjectsOfType<PlayerController>();//플레이어컨트롤 가지고있는 애들 찾아서 배열에 넣음
         TotalPlayerCount = allPlayers.Length; //모든플레이어 수
-        footStep = FindObjectOfType<FootStep>();
     }
 
     public void OnTriggerEnter(Collider other)
@@ -23,7 +21,7 @@ public class EndTrigger : MonoBehaviour
         if (other.gameObject.tag == "Player")// 플레이어 태그를 가지고 있으면
         {
             player = other.gameObject.GetComponent<PlayerController>();
-            player.GetComponent<FootStep>().SetIsFoot(false);
+            player.GetComponent<FootStep>().SetIsFoot(false); // 결승점 들어오면 발소리 제거
             if (player != null)
             {
                 ComePlayer.Add(player);//플레이어 추가
@@ -35,14 +33,7 @@ public class EndTrigger : MonoBehaviour
             }
         }
     }
-    /*private void SetCameraLastPlayer(PlayerController lastPlayer)
-    {
-        CameraController cameraController = FindObjectOfType<CameraController>();
-        if (cameraController != null)
-        {
-            cameraController.SetLastPlaceCharacter(lastPlayer.gameObject);
-        }
-    }*/
+    
     IEnumerator DefeatPlayerAfterDelay()
     {
         yield return new WaitForSeconds(1f);
