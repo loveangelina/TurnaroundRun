@@ -11336,7 +11336,14 @@ MonoBehaviour:
   PlayerState: 0
   canBoost: 0
   animator: {fileID: 0}
-  BoostParticlePrefab: {fileID: 5801834362070671480, guid: 8670055c5242e2e4dbe124697c5c0907, type: 3}
+  BoostParticlePrefab:
+  - {fileID: 3237314181733365316, guid: db1dea12df9dc6c4984f4117ca2e6ffb, type: 3}
+  - {fileID: 7577394267994180213, guid: eb53131d1f29a554aa6b2a3a34849008, type: 3}
+  - {fileID: 9037695402212072984, guid: 7e6f9a2a605dc9e4e9a6c3ea81de53a0, type: 3}
+  - {fileID: 4729282465917892832, guid: 9642b627690d08b4abd8e87290a916cb, type: 3}
+  - {fileID: 1537628145054725721, guid: bd7537acb533b7b4f94be1020bc79155, type: 3}
+  - {fileID: 7991228832033247468, guid: a2e213fd209176847a502bceedf8f682, type: 3}
+  - {fileID: 3384181746779291210, guid: 4248fd7bfa9c29641a6d702e2ab85df8, type: 3}
 --- !u!54 &-3424308676132463875
 Rigidbody:
   m_ObjectHideFlags: 0
