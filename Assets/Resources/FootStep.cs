@@ -5,14 +5,32 @@ using UnityEngine;
 public class FootStep : MonoBehaviour
 {
     // Start is called before the first frame update
-    
+    private bool isFoot;
+    private void Start()
+    {
+        isFoot = true;
+    }
     public void footstep1()
     {
-        SoundMgr.Instance.footstep();
+        if (isFoot)
+        {
+            SoundMgr.Instance.footstep();
+        }
+        else
+            return;
     }
     public void footstep2()
     {
-        SoundMgr.Instance.footstep();
+        if (isFoot)
+        {
+            SoundMgr.Instance.footstep();
+        }
+        else
+            return;
     }
-    
+    public void SetIsFoot(bool value)
+    {
+        isFoot = value;
+    }
+
 }
