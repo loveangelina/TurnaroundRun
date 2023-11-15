@@ -7,6 +7,8 @@ using UnityEngine;
 public class EndTrigger : MonoBehaviour
 {
     List<PlayerController> ComePlayer = new List<PlayerController>();
+    public PlayerController lastPlayer;
+    public PlayerController player;
     int TotalPlayerCount;
     float delayTime;
     private void Start()
@@ -20,7 +22,7 @@ public class EndTrigger : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")// 플레이어 태그를 가지고 있으면
         {
-            PlayerController player = other.gameObject.GetComponent<PlayerController>();
+            player = other.gameObject.GetComponent<PlayerController>();
             if (player != null)
             {
                 ComePlayer.Add(player);//플레이어 추가
@@ -46,7 +48,7 @@ public class EndTrigger : MonoBehaviour
 
         if (ComePlayer.Count > 0)
         {
-            PlayerController lastPlayer = ComePlayer[ComePlayer.Count - 1];
+            lastPlayer = ComePlayer[ComePlayer.Count - 1];
             foreach (PlayerController player in ComePlayer)
             {
                 if (player != lastPlayer)
