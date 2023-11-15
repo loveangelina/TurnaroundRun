@@ -17,8 +17,11 @@ public class CameraController : MonoBehaviour
     [SerializeField] GameObject boostCharacter;
     [SerializeField] GameObject lastPlaceCharacter;
 
+    GameUIManager gameUIManager;
+
     void Start()
     {
+        gameUIManager = FindObjectOfType<GameUIManager>();
         StartCoroutine(ControlCamera());
     }
 
@@ -82,6 +85,8 @@ public class CameraController : MonoBehaviour
 
         punisherCamera.gameObject.SetActive(false);
         punisherCamera2.gameObject.SetActive(true);
+        gameUIManager.LooserUI();
+
     }
 
     // 현재 1등으로 달리고 있는 캐릭터를 찾음

@@ -13,6 +13,7 @@ public class SoundMgr : MonoBehaviour
     public AudioClip footstepClip;
     public AudioClip gameStartClip;
     public AudioClip buttonClickClip;
+    public AudioClip LoserClip;
 
     public Slider bgmSlider;
     public Slider sfxSlider;
@@ -112,6 +113,12 @@ public class SoundMgr : MonoBehaviour
     public void PlayButtonClickSound()
     {
         sfxSource.PlayOneShot(buttonClickClip);
+    }
+    public void LoserSound()
+    {
+        bgmSource.Stop();
+        sfxSource.PlayOneShot(LoserClip);
+        
     }
 
     public void SaveAudioSettings()
