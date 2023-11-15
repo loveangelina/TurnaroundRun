@@ -11,13 +11,12 @@ public class LobbyUIManager : MonoBehaviour
     public Button btnStart;
     private float prefabSpacing = 2f; // 프리팹 간격
 
-    private Dictionary<int, GameObject> prefabInstances = new Dictionary<int, GameObject>();
-
-    private List<int> selectedToggleIndexes = new List<int>();
-
     public GameObject pnlSelected;
 
-    
+    [SerializeField] List<GameObject> prefabs;              // 전체 프리팹 캐릭터들
+    [SerializeField] List<GameObject> selectedCharacter;    // 선택된 캐릭터
+    [SerializeField] List<int> selectedToggleIndexes;       // 선택된 캐릭터들의 인덱스
+    [SerializeField] List<float> characterPosition;         // 선택된 캐릭터들의 생성 위치
 
     public List<int> GetSelectedToggleIndexes()
     {
@@ -41,9 +40,10 @@ public class LobbyUIManager : MonoBehaviour
         {
             toggle.onValueChanged.AddListener(delegate { SoundMgr.Instance.PlayButtonClickSound(); });
         }
+
+        selectedCharacter = new List<GameObject>();
+        characterPosition = new List<float>();
     }
-
-
 
     public void SelectChar()
     {
@@ -51,159 +51,61 @@ public class LobbyUIManager : MonoBehaviour
         {
             if (chartoggles[i].isOn)
             {
-                // 토글이 선택되면 해당 인덱스로 프리팹을 생성하는 함수 호출
-                GeneratePrefabForToggle(i);
                 // 선택된 토글 인덱스를 리스트에 추가
                 if (!selectedToggleIndexes.Contains(i))
                 {
                     selectedToggleIndexes.Add(i);
                 }
 
+                DestroyPrefabForToggle();
             }
             else
             {
-                // 토글이 선택되지 않으면 해당 인덱스로 프리팹을 삭제하는 함수 호출
-                DestroyPrefabForToggle(i);
-
-                // 선택 해제된 토글 인덱스를 리스트에서 제거
+                 // 선택 해제된 토글 인덱스를 리스트에서 제거
                 selectedToggleIndexes.Remove(i);
-             
-            }
 
+                // 토글이 선택되지 않으면 해당 인덱스로 프리팹을 삭제하는 함수 호출
+                DestroyPrefabForToggle();
+            }
         }
-        // 남은 프리팹의 위치 정렬
-        RearrangePrefabPositions();
     }
 
-
     // 토글 선택 시 프리팹 생성 함수
-    private void GeneratePrefabForToggle(int toggleIndex)
+    private void GeneratePrefabForToggle()
     {
-        Debug.Log("선택된 토글 인덱스: " + toggleIndex);
+        InitializeList();
 
-        if (!prefabInstances.ContainsKey(toggleIndex))
-        {   
-            // 인덱스에 따라 다른 프리팹 생성 로직을 추가
-            switch (toggleIndex)
-            {
-                case 0:
-                    InstantiatePrefab("Prefab0",toggleIndex);
-                    break;
-                case 1:
-                    InstantiatePrefab("Prefab1",toggleIndex);
-                    break;
-                case 2:
-                    InstantiatePrefab("Prefab2",toggleIndex);
-                    break;
-                case 3:
-                    InstantiatePrefab("Prefab3",toggleIndex);
-                    break;
-                case 4:
-                    InstantiatePrefab("Prefab4",toggleIndex);
-                    break;
-                case 5:
-                    InstantiatePrefab("Prefab5",toggleIndex);
-                    break;
-                case 6:
-                    InstantiatePrefab("Prefab6",toggleIndex);
-                    break;
-                case 7:
-                    InstantiatePrefab("Prefab7",toggleIndex);
-                    break;
-            }
+        int selectedNum = selectedToggleIndexes.Count;
+        float firstPosition = 0 - 1f * (selectedNum - 1);
+        characterPosition.Add(firstPosition);
+
+        // selectedIndex 값에 따라서 위치 정해진 list 만들기 
+        for (int i = 1; i < selectedNum; i++)
+        {
+            characterPosition.Add(characterPosition[i - 1] + prefabSpacing);
+        }
+
+        // selectedIndex에 있는 값들을 selectedCharacter에 넣어주기 
+        // 선택된 캐릭터들만 화면에 보이게 활성화
+        for (int i = 0; i < selectedToggleIndexes.Count; i++)
+        {
+            GameObject cha = Instantiate(prefabs[selectedToggleIndexes[i]], new Vector3(characterPosition[i], 0, 0), Quaternion.identity);
+            selectedCharacter.Add(cha);
         }
     }
 
     // 토글 선택 해제 시 프리팹 삭제 함수
-    private void DestroyPrefabForToggle(int toggleIndex)
+    private void DestroyPrefabForToggle()
     {
-        Debug.Log("선택이 해제된 토글 인덱스: " + toggleIndex);
-
-        // 인덱스에 해당하는 프리팹 인스턴스가 있다면 삭제
-        if (prefabInstances.ContainsKey(toggleIndex))
+        foreach (GameObject character in selectedCharacter)
         {
-            DestroyPrefab(toggleIndex);
+            Destroy(character);
         }
+
+        // 선택된 캐릭터들만 다시 재생성
+        GeneratePrefabForToggle();
     }
 
-
-
-    // 실제 프리팹 생성 함수 (프리팹 이름과 토글 인덱스를 받아 생성)
-    private void InstantiatePrefab(string prefabName, int toggleIndex)
-    {
-        // Resources 폴더에 있는 프리팹 로드
-        GameObject prefab = Resources.Load<GameObject>(prefabName);
-
-        if (prefab != null)
-        {
-            // 프리팹을 인스턴스화하여 생성
-            Vector3 spawnPosition = new Vector3(toggleIndex * prefabSpacing, 0f, 0f); // 프리팹 생성 위치 계산
-            GameObject instance = Instantiate(prefab, spawnPosition, Quaternion.identity);
-
-            // 생성된 프리팹 인스턴스를 딕셔너리에 추가
-            prefabInstances.Add(toggleIndex, instance);
-
-            Debug.Log("프리팹 생성: " + prefabName);
-        }
-        else
-        {
-            Debug.LogError("프리팹을 찾을 수 없습니다: " + prefabName);
-        }
-    }
-
-    // 실제 프리팹 삭제 함수 (토글 인덱스를 받아 삭제)
-    private void DestroyPrefab(int toggleIndex)
-    {
-        // 딕셔너리에서 해당 인덱스의 프리팹 인스턴스를 찾아 삭제
-        GameObject prefabInstance;
-        if (prefabInstances.TryGetValue(toggleIndex, out prefabInstance))
-        {
-            prefabInstances.Remove(toggleIndex);
-
-            // 프리팹 인스턴스를 파괴하여 삭제
-            Destroy(prefabInstance);
-            Debug.Log("프리팹 삭제: " + toggleIndex);
-        }
-        else
-        {
-            Debug.LogError("삭제할 프리팹 인스턴스를 찾을 수 없습니다: " + toggleIndex);
-        }
-    }
-    private void RearrangePrefabPositions()
-    {
-        float offset = prefabSpacing * 0.5f;
-
-        var sortedPrefabInstances = prefabInstances.OrderBy(pair => pair.Key);
-
-        int index = 0;
-        foreach (var pair in sortedPrefabInstances)
-        {
-            Vector3 newPosition = new Vector3(index * prefabSpacing, 0f, 0f);
-
-            // 중앙 정렬
-            float totalWidth = (prefabInstances.Count - 1) * prefabSpacing;
-            newPosition.x -= totalWidth / 2f;
-
-            // 다른 프리팹들과의 충돌 체크 및 조정
-            foreach (var otherPair in sortedPrefabInstances)
-            {
-                if (pair.Key != otherPair.Key)
-                {
-                    float distance = Mathf.Abs(newPosition.x - otherPair.Value.transform.position.x);
-                    float minDistance = prefabSpacing;
-
-                    if (distance < minDistance)
-                    {
-                        float overlap = minDistance - distance;
-                        newPosition.x += overlap * Mathf.Sign(newPosition.x - otherPair.Value.transform.position.x);
-                    }
-                }
-            }
-
-            pair.Value.transform.position = newPosition;
-            index++;
-        }
-    }
     public void ChangeGameScene()
     {
         if (selectedToggleIndexes.Count >= 2)
@@ -228,6 +130,12 @@ public class LobbyUIManager : MonoBehaviour
         // 패널 다시 끄기
         UIManager.Instance.ActivePnl(pnlSelected); 
         
+    }
+
+    private void InitializeList()
+    {
+        selectedCharacter.Clear();
+        characterPosition.Clear();
     }
 }
 

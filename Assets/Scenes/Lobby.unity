@@ -828,6 +828,15 @@ MonoBehaviour:
   - {fileID: 1364872558}
   btnStart: {fileID: 658734981}
   pnlSelected: {fileID: 1590420126}
+  prefabs:
+  - {fileID: 8315914845058403453, guid: e8a0e701de77f1d44a0c4e50bf7440f6, type: 3}
+  - {fileID: 4968077568377001006, guid: 123c101af50640a4b867361f52394b0c, type: 3}
+  - {fileID: 4189607653305909925, guid: e3bab1618d5b31843b30cc1740819cd8, type: 3}
+  - {fileID: 7858498754750678171, guid: 7a91058ef188d564cb286a6c9b4298de, type: 3}
+  - {fileID: 1745187925684929670, guid: 20fcfb35a64d4e5449ee4166af614bbc, type: 3}
+  - {fileID: 1555335747197163879, guid: 2f17b1533108d19469d032bfab93c287, type: 3}
+  - {fileID: 3137786495578628170, guid: 18d2683f9ec43f7458abb5c7c85cbdd1, type: 3}
+  - {fileID: 6538393523905050195, guid: 1ace18b69119f264589eec47e7a2a492, type: 3}
 --- !u!4 &647181028
 Transform:
   m_ObjectHideFlags: 0
