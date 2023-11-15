@@ -9,6 +9,8 @@ public class SoundMgr : MonoBehaviour
     
     public AudioSource sfxSource;
 
+    public AudioSource footstepSource;
+    public AudioClip footstepClip;
     public AudioClip gameStartClip;
     public AudioClip buttonClickClip;
 
@@ -169,6 +171,7 @@ public class SoundMgr : MonoBehaviour
     }
     public void PlayBoostSound()
     {
+        sfxSource.volume = 0.5f;
         sfxSource.PlayOneShot(boostSoundClip);
     }
     public void StopBoostSound()
@@ -184,8 +187,8 @@ public class SoundMgr : MonoBehaviour
 
         bgmSource.clip = newBgmClip;
         bgmSource.loop = true;
+        bgmSource.volume = (randomSceneIndex == 0 || randomSceneIndex == 1||randomSceneIndex ==2) ? 0.4f : bgmSource.volume;
         bgmSource.Play();        
-        StartCoroutine(volumeUP());
     }
     public void countDown()
     {
@@ -197,9 +200,9 @@ public class SoundMgr : MonoBehaviour
     }
     IEnumerator volumeUP()
     {
-        bgmSource.volume = 0.6f;
+        bgmSource.volume = 0.5f;
         yield return new WaitForSeconds(3f);
-        bgmSource.volume = 1f;
+        bgmSource.volume = 0.7f;
     }
     IEnumerator DestroyCountDown()
     {       
@@ -216,5 +219,11 @@ public class SoundMgr : MonoBehaviour
         yield return new WaitForSeconds(2f);
         countDownSorce.clip = CountDown[2];
         countDownSorce.Play();
+    }
+    public void footstep()
+    {
+        footstepSource.clip = footstepClip;
+        footstepSource.loop = false;
+        footstepSource.Play();
     }
 }
