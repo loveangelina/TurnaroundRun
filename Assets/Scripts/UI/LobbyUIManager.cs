@@ -15,26 +15,37 @@ public class LobbyUIManager : MonoBehaviour
 
     private List<int> selectedToggleIndexes = new List<int>();
 
+    public GameObject pnlSelected;
+
+    
+
     public List<int> GetSelectedToggleIndexes()
     {
         return selectedToggleIndexes;    
     }
 
- // *** GetSelectedToggleIndexes() 사용법 ***
+    // *** GetSelectedToggleIndexes() 사용법 ***
 
     // 다른 스크립트에서 호출하는 부분
-//List<int> selectedIndexes = FindObjectOfType<LobbyUIManager>().GetSelectedToggleIndexes();
+    //List<int> selectedIndexes = FindObjectOfType<LobbyUIManager>().GetSelectedToggleIndexes();
 
     // 선택된 토글의 인덱스 목록을 사용
-//foreach (int index in selectedIndexes)
-//{
-//    Debug.Log("선택된 토글 인덱스: " + index);
-//}
+    //foreach (int index in selectedIndexes)
+    //{
+    //    Debug.Log("선택된 토글 인덱스: " + index);
+    //}
+
+    private void Start()
+    {
+        foreach (Toggle toggle in chartoggles)
+        {
+            toggle.onValueChanged.AddListener(delegate { SoundMgr.Instance.PlayButtonClickSound(); });
+        }
+    }
 
 
 
-
-public void SelectChar()
+    public void SelectChar()
     {
         for (int i = 0; i < chartoggles.Length; i++)
         {
@@ -56,6 +67,7 @@ public void SelectChar()
 
                 // 선택 해제된 토글 인덱스를 리스트에서 제거
                 selectedToggleIndexes.Remove(i);
+             
             }
 
         }
@@ -193,10 +205,29 @@ public void SelectChar()
         }
     }
     public void ChangeGameScene()
-    { 
-        SoundMgr.Instance.ChangeBGMForScene();//사운드 변경
-        SoundMgr.Instance.countDown();
-        SceneManager.LoadScene("Game");
+    {
+        if (selectedToggleIndexes.Count >= 2)
+        {
+            SoundMgr.Instance.ChangeBGMForScene();//사운드 변경
+            SoundMgr.Instance.countDown();
+            SceneManager.LoadScene("Game");
+        }
+        else
+        {
+            StartCoroutine(ShowPanelAndHideAfterDelay());
+        }
+    }
+
+    private IEnumerator ShowPanelAndHideAfterDelay()
+    {
+        UIManager.Instance.ActivePnl(pnlSelected);
+
+        // 2초 대기
+        yield return new WaitForSeconds(2f);
+
+        // 패널 다시 끄기
+        UIManager.Instance.ActivePnl(pnlSelected); 
+        
     }
 }
 
