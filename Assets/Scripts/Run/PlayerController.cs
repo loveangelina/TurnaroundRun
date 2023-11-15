@@ -32,9 +32,9 @@ public class PlayerController : MonoBehaviour
     private bool isboostSound;
     private float BoostTime;
     private bool CanCountDown;
-    public GameObject BoostParticlePrefab;//부스터 파티클 게임 오브젝트 
+    public GameObject[] BoostParticlePrefab;//부스터 파티클 게임 오브젝트 
     private GameObject BoostParticleInstance;//그 오브젝트를 복사한 인스턴스 
-
+    private int BoostIndex;
 
     // Start is called before the first frame update
     private void Awake()
@@ -61,7 +61,8 @@ public class PlayerController : MonoBehaviour
         MaxSpeed = 10f;
         MinSpeed = 3f;
         Vector3 spawnPosition = transform.position + new Vector3(0, 1f, 0);
-        BoostParticleInstance = Instantiate(BoostParticlePrefab, spawnPosition, Quaternion.identity, transform); //부스터 프리팹을 플레이어 중앙에 복사 > 부스터 인스턴스 대입
+        BoostIndex = Random.Range(0, BoostParticlePrefab.Length);
+        BoostParticleInstance = Instantiate(BoostParticlePrefab[BoostIndex], spawnPosition, Quaternion.identity, transform); //부스터 프리팹을 플레이어 중앙에 복사 > 부스터 인스턴스 대입
         BoostParticleInstance.SetActive(false);
         isboostSound = true;
     }
@@ -122,7 +123,7 @@ public class PlayerController : MonoBehaviour
             case State.Boost://부스트 상태일때
                 //Debug.Log("부스트");
                 WaitTime += Time.deltaTime; //시간 증가
-                if (BoostTime >= 5f)
+                if (BoostTime >= 10f)
                 {
                     BoostParticleInstance.SetActive(false);//만들어진 파티클 비활성화                   
                     normarSpeed = normarSpeed - plusSpeed; //스피드 원래 스피드
