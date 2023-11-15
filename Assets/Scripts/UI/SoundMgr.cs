@@ -16,9 +16,9 @@ public class SoundMgr : MonoBehaviour
     public Slider sfxSlider;
     public Toggle bgmToggle;
     public Toggle sfxToggle;
-    public AudioSource gameSource;
+
     private AudioSource countDownSorce;
-    public AudioClip CountDown;
+    public AudioClip[] CountDown;
     public AudioClip[] sceneBGMs;
     public AudioClip boostSoundClip; // 부스트 효과음 클립
     private static SoundMgr _instance;
@@ -190,7 +190,7 @@ public class SoundMgr : MonoBehaviour
     public void countDown()
     {
         countDownSorce = gameObject.AddComponent<AudioSource>();
-        countDownSorce.clip = CountDown;
+        countDownSorce.clip = CountDown[0];
         countDownSorce.volume = 0.5f;
         countDownSorce.Play();
         StartCoroutine(DestroyCountDown());
@@ -205,6 +205,16 @@ public class SoundMgr : MonoBehaviour
     {       
         yield return new WaitForSeconds(3.5f);
         countDownSorce.Stop();
-        Destroy(countDownSorce);
+    }
+    public void ComeIn()
+    {
+        countDownSorce.clip = CountDown[1];
+        countDownSorce.Play();
+    }
+    public IEnumerator Nagative()
+    {
+        yield return new WaitForSeconds(2f);
+        countDownSorce.clip = CountDown[2];
+        countDownSorce.Play();
     }
 }
