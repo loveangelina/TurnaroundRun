@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera boostCamera;
     [SerializeField] CinemachineVirtualCamera finalCamera;
     [SerializeField] CinemachineVirtualCamera punisherCamera;
+    [SerializeField] CinemachineVirtualCamera punisherCamera2;
 
     [SerializeField] GameObject firstPlaceCharacter;
     [SerializeField] GameObject boostCharacter;
@@ -79,12 +80,8 @@ public class CameraController : MonoBehaviour
         punisherCamera.gameObject.SetActive(true);
         yield return new WaitForSeconds(5f);
 
-        // 부스터 된 사람은 최대속도로 달리므로, 
-        // 5초간 최대속도로 달릴 때 결승선이 나올 수 있는 지점에서 
-        // 부스터 된 사람을 계속 보여주며 
-        // 결승선에 가까워지면 결승선 카메라로 변환되고
-        //
-        // 부스터 될 사람 선택하기 전까지는 1등 전체로 보여주기 
+        punisherCamera.gameObject.SetActive(false);
+        punisherCamera2.gameObject.SetActive(true);
     }
 
     // 현재 1등으로 달리고 있는 캐릭터를 찾음
