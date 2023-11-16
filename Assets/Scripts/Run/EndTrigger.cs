@@ -51,10 +51,10 @@ public class EndTrigger : MonoBehaviour
 
             lastPlayer.ChangeState(PlayerController.State.Stop);
             lastPlayer.animator.SetBool("Die", true);
-            Debug.Log("Á×À½");
 
             // CameraController¿¡ lastPlayer Àü´Þ
             StartCoroutine(SetCameraLastPlayer(lastPlayer));
+            StartCoroutine(SoundMgr.Instance.Nagative());
         }
     }
     

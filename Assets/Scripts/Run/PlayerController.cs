@@ -165,7 +165,6 @@ public class PlayerController : MonoBehaviour
     IEnumerator BoostSound()
     {
         SoundMgr.Instance.PlayBoostSound();//사운드 매니저 , 부스터 호출
-        
         yield return new WaitForSeconds(10f);
     }
 }
