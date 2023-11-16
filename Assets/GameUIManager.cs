@@ -56,5 +56,6 @@ public class GameUIManager : MonoBehaviour
 
         Loser.gameObject.SetActive(false);
         SceneManager.LoadScene("Title");
+        SoundMgr.Instance.returnTitle();
     }
 }

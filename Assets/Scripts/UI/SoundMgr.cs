@@ -6,14 +6,13 @@ using UnityEngine.UI;
 public class SoundMgr : MonoBehaviour
 {
     public AudioSource bgmSource;
-    
+    public AudioClip bgmClip;
     public AudioSource sfxSource;
 
     public AudioSource footstepSource;
     public AudioClip footstepClip;
     public AudioClip gameStartClip;
     public AudioClip buttonClickClip;
-    public AudioClip LoserClip;
 
     public Slider bgmSlider;
     public Slider sfxSlider;
@@ -116,9 +115,7 @@ public class SoundMgr : MonoBehaviour
     }
     public void LoserSound()
     {
-        bgmSource.Stop();
-        sfxSource.PlayOneShot(LoserClip);
-        
+        bgmSource.volume = 0.3f;
     }
 
     public void SaveAudioSettings()
@@ -205,12 +202,6 @@ public class SoundMgr : MonoBehaviour
         countDownSorce.Play();
         StartCoroutine(DestroyCountDown());
     }
-    IEnumerator volumeUP()
-    {
-        bgmSource.volume = 0.5f;
-        yield return new WaitForSeconds(3f);
-        bgmSource.volume = 0.7f;
-    }
     IEnumerator DestroyCountDown()
     {       
         yield return new WaitForSeconds(3.5f);
@@ -224,6 +215,7 @@ public class SoundMgr : MonoBehaviour
     public IEnumerator Nagative()
     {
         yield return new WaitForSeconds(2f);
+        countDownSorce.volume = 1f;
         countDownSorce.clip = CountDown[2];
         countDownSorce.Play();
     }
@@ -232,5 +224,11 @@ public class SoundMgr : MonoBehaviour
         footstepSource.clip = footstepClip;
         footstepSource.loop = false;
         footstepSource.Play();
+    }
+    public void returnTitle()
+    {
+        bgmSource.clip = bgmClip;
+        bgmSource.volume = 1f;
+        bgmSource.Play();
     }
 }
