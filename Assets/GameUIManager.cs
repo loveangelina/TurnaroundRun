@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 public class GameUIManager : MonoBehaviour
 {
         public Text countdownText;
         public Text startText;
         private int countdownSeconds = 3;
+
+        public Image Loser;
 
         void Start()
         {
@@ -39,5 +41,20 @@ public class GameUIManager : MonoBehaviour
             startText.text = "";
 
 
+        }
+
+    public void LooserUI()
+    {
+        Loser.gameObject.SetActive(true);
+        SoundMgr.Instance.LoserSound();
+        StartCoroutine(BacktoTitle());
+    }
+
+    IEnumerator BacktoTitle()
+    {
+        yield return new WaitForSeconds(4f);
+
+        Loser.gameObject.SetActive(false);
+        SceneManager.LoadScene("Title");
     }
 }
