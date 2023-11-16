@@ -36,7 +36,7 @@ public class EndTrigger : MonoBehaviour
     
     IEnumerator DefeatPlayerAfterDelay()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.8f);
 
         if (ComePlayer.Count > 0)
         {
