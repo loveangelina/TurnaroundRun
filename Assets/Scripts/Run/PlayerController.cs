@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
         BoostTime = 0f;
         IsCoolTime = false;
         MaxSpeed = 10f;
-        MinSpeed = 3f;
+        MinSpeed = 5f;
         Vector3 spawnPosition = transform.position + new Vector3(0, 1f, 0);
         BoostIndex = Random.Range(0, BoostParticlePrefab.Length);
         BoostParticleInstance = Instantiate(BoostParticlePrefab[BoostIndex], spawnPosition, Quaternion.identity, transform); //부스터 프리팹을 플레이어 중앙에 복사 > 부스터 인스턴스 대입
@@ -156,16 +156,15 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator CollTime()
     {
-        normarSpeed = Random.Range(MinSpeed, MaxSpeed);//표준 스피드 랜덤하게 설정(최소,최대)
+        normarSpeed = Random.Range(MinSpeed, MaxSpeed-1.5f);//표준 스피드 랜덤하게 설정(최소,최대)
         animator.SetFloat("Speed", normarSpeed);//애니메이터 블렌드 트리 파라미터 Speed설정
         IsCoolTime = true;
-        yield return new WaitForSeconds(5f);//5초뒤 속도 변경 , 랜덤으로 바꿔도 됨
+        yield return new WaitForSeconds(2.5f);//3초뒤 속도 변경 , 랜덤으로 바꿔도 됨
         IsCoolTime = false;
     }
     IEnumerator BoostSound()
     {
         SoundMgr.Instance.PlayBoostSound();//사운드 매니저 , 부스터 호출
-        
         yield return new WaitForSeconds(10f);
     }
 }

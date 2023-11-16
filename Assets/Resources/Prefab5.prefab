@@ -2556,7 +2556,6 @@ MonoBehaviour:
   - {fileID: 4729282465917892832, guid: 9642b627690d08b4abd8e87290a916cb, type: 3}
   - {fileID: 1537628145054725721, guid: bd7537acb533b7b4f94be1020bc79155, type: 3}
   - {fileID: 7991228832033247468, guid: a2e213fd209176847a502bceedf8f682, type: 3}
-  - {fileID: 3384181746779291210, guid: 4248fd7bfa9c29641a6d702e2ab85df8, type: 3}
 --- !u!54 &2426942324725241013
 Rigidbody:
   m_ObjectHideFlags: 0
